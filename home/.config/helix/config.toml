@@ -1,5 +1,0 @@
-theme = "onedark"
-
-[editor]
-true-color = true
-bufferline = "always"
