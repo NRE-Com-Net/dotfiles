@@ -19,30 +19,18 @@ _nredf_set_local () {
 
   if [[ -f "${NREDF_RC_LOCAL}/aliases.local" ]]; then
     source "${NREDF_RC_LOCAL}/aliases.local"
-  else
-    touch "${NREDF_RC_LOCAL}/aliases.local"
-  fi
-
-  if [[ -e "${NREDF_RC_PATH}/functions" ]]; then
-    source "${NREDF_RC_PATH}/functions"
   fi
 
   if [[ -f "${NREDF_RC_LOCAL}/functions.local" ]]; then
     source "${NREDF_RC_LOCAL}/functions.local"
-  else
-    touch "${NREDF_RC_LOCAL}/functions.local"
   fi
 
   if [[ -f "${NREDF_COMMON_RC_LOCAL}/rc.local" ]]; then
     source "${NREDF_COMMON_RC_LOCAL}/rc.local"
-  else
-    touch "${NREDF_COMMON_RC_LOCAL}/rc.local"
   fi
 
   if [[ -f "${NREDF_RC_LOCAL}/rc.local" ]]; then
     source "${NREDF_RC_LOCAL}/rc.local"
-  else
-    touch "${NREDF_RC_LOCAL}/rc.local"
   fi
 
   if [[ -d "${NREDF_CONFIG}/shell/common/functions" ]]; then
@@ -57,10 +45,22 @@ _nredf_set_local () {
     done
   fi
 
+  if [[ -f "${NREDF_CONFIG}/shell/common/aliases" ]]; then
+    source "${NREDF_CONFIG}/shell/common/aliases"
+  else
+    touch "${NREDF_CONFIG}/shell/common/aliases"
+  fi
+
   if [[ -f "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/aliases" ]]; then
     source "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/aliases"
   else
     touch "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/aliases"
+  fi
+
+  if [[ -f "${NREDF_CONFIG}/shell/common/rc" ]]; then
+    source "${NREDF_CONFIG}/shell/common/rc"
+  else
+    touch "${NREDF_CONFIG}/shell/common/rc"
   fi
 
   if [[ -f "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/rc" ]]; then
