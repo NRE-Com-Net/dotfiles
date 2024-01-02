@@ -1,4 +1,7 @@
-# Aliases
+#!/usr/bin/env bash
+#
+# vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
+
 alias r='ranger --cmd="set preview_files=true" --cmd="set use_preview_script=true"'
 alias ls="ls --color=auto"
 alias ll="ls --color=auto -lFh"

@@ -1,38 +1,6 @@
-#!/bin/bash
-
-function _exit_shell() {
-	if [[ "${EUID}" -eq 0 && -n "${SUDO_USER}" && "${HOME}" = $(eval echo "~${SUDO_USER}") ]]; then
-		local SUDO_GROUP
-    SUDO_GROUP=$(id -g -n "${SUDO_USER}")
-		chown -R "${SUDO_USER}":"${SUDO_GROUP}" "${HOME}"
-		exit
-	else
-		exit
-	fi
-}
-
-function grep_invalid_utf8 () {
-	perl -l -ne '/^([\000-\177]|[\300-\337][\200-\277]|[\340-\357][\200-\277]{2}|[\360-\367][\200-\277]{3}|[\370-\373][\200-\277]{4}|[\374-\375][\200-\277]{5})*$/ or print'
-}
-
-function fix_invalid_utf8 () {
-	find . | grep-invalid-utf8 | rename 'BEGIN {binmode STDIN, ":encoding(latin1)"; use Encode;}$_=encode("utf8", $_)'
-}
-
-function git_remove_submodule() {
-	SUBMODULE_NAME=$(echo "${1}" | sed 's/\/$//'); shift
-
-	if git submodule status "${SUBMODULE_NAME}" >/dev/null 2>&1; then
-		git submodule deinit -f "${SUBMODULE_NAME}"
-		git rm --cached "${SUBMODULE_NAME}"
-		rm -rf .git/modules/"${SUBMODULE_NAME}"
-		rm -rf "${SUBMODULE_NAME}"
-		git config -f .gitmodules --remove-section "submodule.${SUBMODULE_NAME}"
-	else
-		[ $# -gt 0 ] && echo "fatal: Submodule '${SUBMODULE_NAME}' not found" 1>&2
-		exit 1
-	fi
-}
+#!/usr/bin/env bash
+#
+# vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 function _nredf_zplug() {
   ZPLUG_HOME="${NREDF_RC_PATH}/zplug"

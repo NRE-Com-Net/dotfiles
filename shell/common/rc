@@ -2,7 +2,6 @@
 #
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
-# Read functions
 for NREDF_FUNCTIONS in "${NREDF_DOT_PATH}/shell/common/functions/"*; do
   source "${NREDF_FUNCTIONS}"
 done

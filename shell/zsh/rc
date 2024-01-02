@@ -1,3 +1,8 @@
+#!/usr/bin/env zsh
+#
+# vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
+# shellcheck disable=SC1071
+
 [[ ! -d "${XDG_STATE_HOME}/zsh" ]] && mkdir -p "${XDG_STATE_HOME}/zsh"
 [[ ! -d "${XDG_CACHE_HOME}/zsh" ]] && mkdir -p "${XDG_CACHE_HOME}/zsh"
 fpath=("${HOME}/.config/completion/zsh" "${fpath[@]}")
