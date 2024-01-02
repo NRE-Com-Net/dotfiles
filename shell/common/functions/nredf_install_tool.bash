@@ -11,11 +11,14 @@ function _nredf_install_tool() {
   local DOWNLOAD_CMD=${6}
   local EXTRACT_CMD=${7}
 
-  if [[ -n $BASH_VERSION ]]; then
+  if [[ -n ${BASH_VERSION} ]]; then
     local CURRENT_TOOL="${FUNCNAME[1]}"
-  else  # zsh
+  elif [[ -n ${ZSH_VERSION} ]]; then
     # shellcheck disable=SC2124,SC2154
     local CURRENT_TOOL="${funcstack[@]:1:1}"
+  else
+    echo -e "\033[1;33m Unsupported Shell \033[0m"
+    return 1
   fi
 
   if _nredf_last_run "${CURRENT_TOOL}"; then
@@ -30,7 +33,7 @@ function _nredf_install_tool() {
     local CURRENT_VERSION
     CURRENT_VERSION="$(eval "${XDG_BIN_HOME}/${BINARY} ${VERSION_CMD}")"
     if [[ "${TAGVERSION}" == "" ]]; then
-      echo -e "\033[1;33m  \U2713 ${BINARY} version could not be fetched \033[0m"
+      echo -e "\033[1;33m  \U274C ${BINARY} version could not be fetched \033[0m"
       # shellcheck disable=SC2155
       local RATELIMIT_REMAINING=$(curl -LIs https://api.github.com/meta | awk '/x-ratelimit-remaining/{print $2}')
       if [[ "${RATELIMIT_REMAINING}" == "0" ]]; then
@@ -61,13 +64,13 @@ function _nredf_install_tool() {
   if [[ -f "${NREDF_DOWNLOADS}/${FILENAME}" ]]; then
     eval "${EXTRACT_CMD}"
   else
-    echo -e "\033[1;31m    \U21B3 Installation failed\033[0m"
+    echo -e "\033[1;31m    \U274C Installation failed\033[0m"
     return 1
   fi
   if [[ -f "${XDG_BIN_HOME}/${BINARY}" ]]; then
     chmod +x "${XDG_BIN_HOME}/${BINARY}"
   else
-    echo -e "\033[1;31m    \U21B3 Installation failed\033[0m"
+    echo -e "\033[1;31m    \U274C Installation failed\033[0m"
     return 1
   fi
   echo -e "\033[1;32m    \U21B3 Installation successful\033[0m"

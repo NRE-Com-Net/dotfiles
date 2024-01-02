@@ -44,4 +44,28 @@ _nredf_set_local () {
   else
     touch "${NREDF_RC_LOCAL}/rc.local"
   fi
+
+  if [[ -d "${NREDF_CONFIG}/shell/common/functions" ]]; then
+    for NREDF_LOCAL_FUNCTIONS in "${NREDF_CONFIG}/shell/common/functions/"*; do
+      source "${NREDF_LOCAL_FUNCTIONS}"
+    done
+  fi
+
+  if [[ -d "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/functions" ]]; then
+    for NREDF_LOCAL_FUNCTIONS in "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/functions/"*; do
+      source "${NREDF_LOCAL_FUNCTIONS}"
+    done
+  fi
+
+  if [[ -f "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/aliases" ]]; then
+    source "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/aliases"
+  else
+    touch "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/aliases"
+  fi
+
+  if [[ -f "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/rc" ]]; then
+    source "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/rc"
+  else
+    touch "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/rc"
+  fi
 }

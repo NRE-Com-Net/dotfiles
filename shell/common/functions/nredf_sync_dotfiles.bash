@@ -3,56 +3,83 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 function _nredf_sync_dotfiles() {
-  if [ ! -d "${HOME}/.homesick" ]; then
-    echo -e '\033[1mInstalling homesick\033[0m'
-    git clone https://github.com/andsens/homeshick.git "${HOME}/.homesick/repos/homeshick"
-    source "${HOME}/.homesick/repos/homeshick/homeshick.sh"
-    fpath=("${HOME}/.homesick/repos/homeshick/completions ${fpath[@]}")
-    echo -e '\033[1m  Cloning dotfiles\033[0m'
-    homeshick --quiet --batch clone https://github.com/NemesisRE/dotfiles.git
-    echo -e '\033[1m  Cloning vimfiles\033[0m'
-    homeshick --quiet --batch clone https://github.com/NemesisRE/vimfiles.git
-    echo -e '\033[1m  Cloning asdf\033[0m'
-    homeshick --quiet --batch clone https://github.com/asdf-vm/asdf.git
-    source "${HOME}/.homesick/repos/asdf/completions/asdf.bash"
-    fpath=("${HOME}/.homesick/repos/asdf/completions ${fpath[@]}")
-    echo -e '\033[1m  Linking dotfiles\033[0m'
-    homeshick --quiet --batch --force link
-    fc-cache -fv
-    _nredf_last_run "" "true"
-    exec ${SHELL}
+  if [[ ! -d "${HOME}/.homesick" ]]; then
+    _nredf_install_homeshick
   else
     source "${HOME}/.homesick/repos/homeshick/homeshick.sh"
     fpath=("${HOME}/.homesick/repos/homeshick/completions" "${fpath[@]}")
-    if _nredf_last_run; then
+  fi
+
+  _nredf_add_castles
+
+  if _nredf_last_run; then
+    return 0
+  fi
+  echo -e '\033[1mChecking dotfiles\033[0m'
+  homeshick --quiet check
+  case ${?} in
+    86)
+      echo -e '\033[1m  Pulling dotfiles\033[0m'
+      if homeshick --batch --force pull; then
+        echo -e '\033[1m  Linking dotfiles\033[0m'
+        homeshick --batch --force link
+        exec ${SHELL}
+      else
+        echo -e '\033[1m  Linking dotfiles\033[0m'
+        homeshick --batch --force link
+        return 1
+      fi
+      ;;
+    85)
+      echo -e '\033[1;38;5;222m  Your dotfiles are ahead of its upstream, consider pushing\033[0m'
+      echo -e '\033[1m  Linking dotfiles\033[0m'
+      homeshick --batch --force link
+      ;;
+    88)
+      echo -e '\033[1;38;5;222m  Your dotfiles are modified, commit or discard changes to update them\033[0m'
+      echo -e '\033[1m  Linking dotfiles\033[0m'
+      homeshick --batch --force link
+      ;;
+  esac
+  fc-cache -f
+  _nredf_last_run "" "true"
+}
+
+function _nredf_install_homeshick() {
+  echo -e '\033[1mInstalling homesick\033[0m'
+  git clone https://github.com/andsens/homeshick.git "${HOME}/.homesick/repos/homeshick"
+  source "${HOME}/.homesick/repos/homeshick/homeshick.sh"
+  fpath=("${HOME}/.homesick/repos/homeshick/completions" "${fpath[@]}")
+}
+
+function _nredf_add_castles() {
+  if [[ ! -f "${XDG_CONFIG_HOME}/nredf/CASTLES" ]]; then
+    if command -pv homeshick &>/dev/null; then
+      homeshick ls | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" | awk '{$1=$1;print $2}' > "${XDG_CONFIG_HOME}/nredf/CASTLES"
+      return 0
+    else
+      _nredf_install_homeshick
+    fi
+  else
+    diff --changed-group-format='%>' --unchanged-group-format='' \
+    <(sort "${XDG_CONFIG_HOME}/nredf/CASTLES") \
+    <(homeshick ls | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" | awk '{$1=$1;print $2}' | sort) \
+    > "${XDG_CONFIG_HOME}/nredf/CASTLES.tmp"
+    if [[ -s "${XDG_CONFIG_HOME}/nredf/CASTLES.tmp" ]]; then
+      cat "${XDG_CONFIG_HOME}/nredf/CASTLES.tmp" >> "${XDG_CONFIG_HOME}/nredf/CASTLES"
+      rm -f "${XDG_CONFIG_HOME}/nredf/CASTLES.tmp"
+    else
       return 0
     fi
-    echo -e '\033[1mChecking dotfiles\033[0m'
-    homeshick --quiet check
-    case ${?} in
-      86)
-        echo -e '\033[1m  Pulling dotfiles\033[0m'
-        if homeshick --batch --force pull; then
-          echo -e '\033[1m  Linking dotfiles\033[0m'
-          homeshick --batch --force link
-          exec ${SHELL}
-        else
-          echo -e '\033[1m  Linking dotfiles\033[0m'
-          homeshick --batch --force link
-          return 1
-        fi
-        ;;
-      85)
-        echo -e '\033[1;38;5;222m  Your dotfiles are ahead of its upstream, consider pushing\033[0m'
-        echo -e '\033[1m  Linking dotfiles\033[0m'
-        homeshick --batch --force link
-        ;;
-      88)
-        echo -e '\033[1;38;5;222m  Your dotfiles are modified, commit or discard changes to update them\033[0m'
-        echo -e '\033[1m  Linking dotfiles\033[0m'
-        homeshick --batch --force link
-        ;;
-    esac
-    _nredf_last_run "" "true"
   fi
+
+  while read -r NREDF_CASTLE; do
+    if [[ ${NREDF_CASTLE} =~ ^# ]]; then
+      continue
+    fi
+    # shellcheck disable=SC2155
+    local NREDF_CASTLE_NAME=$(echo "${NREDF_CASTLE}" | awk -F '/' '{sub(/\.git$/,""); print $5}')
+    echo -e "\033[1m  Cloning castle \"${NREDF_CASTLE_NAME}\"\033[0m"
+    homeshick --quiet --batch clone "${NREDF_CASTLE}"
+  done < "${XDG_CONFIG_HOME}/nredf/CASTLES"
 }

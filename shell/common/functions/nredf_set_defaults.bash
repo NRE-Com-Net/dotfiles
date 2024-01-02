@@ -20,10 +20,11 @@ function _nredf_set_defaults() {
   export XDG_BIN_HOME="${HOME}/.local/bin"
   export XDG_DATA_HOME="${HOME}/.local/share"
   export XDG_STATE_HOME="${HOME}/.local/state"
+  export NREDF_CONFIG="${XDG_CONFIG_HOME}/nredf"
   export NREDF_DOWNLOADS="${XDG_CACHE_HOME}/nredf/Download"
   export NREDF_GHCACHE="${XDG_CACHE_HOME}/nredf/GHVersionCache"
   export NREDF_LRCACHE="${XDG_CACHE_HOME}/nredf/LRCache"
-  for XDG_PATH in "${NREDF_RC_LOCAL}" "${NREDF_COMMON_RC_LOCAL}" "${XDG_CONFIG_HOME}" "${XDG_BIN_HOME}" "${XDG_CACHE_HOME}" "${NREDF_GHCACHE}" "${NREDF_LRCACHE}" "${NREDF_DOWNLOADS}" "${XDG_DATA_HOME}" "${XDG_STATE_HOME}"; do
+  for XDG_PATH in "${NREDF_RC_LOCAL}" "${NREDF_COMMON_RC_LOCAL}" "${XDG_CONFIG_HOME}" "${XDG_BIN_HOME}" "${XDG_CACHE_HOME}" "${NREDF_CONFIG}" "${NREDF_GHCACHE}" "${NREDF_LRCACHE}" "${NREDF_DOWNLOADS}" "${XDG_DATA_HOME}" "${XDG_STATE_HOME}"; do
     [[ ! -d "${XDG_PATH}" ]] && mkdir -p "${XDG_PATH}"
   done
 
