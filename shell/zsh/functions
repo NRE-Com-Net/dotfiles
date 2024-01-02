@@ -37,8 +37,12 @@ function git_remove_submodule() {
 function _nredf_zplug() {
   ZPLUG_HOME="${NREDF_RC_PATH}/zplug"
   ZPLUG_PLUGINS="${NREDF_RC_PATH}/plugins"
-  ZPLUG_LOADFILE="${NREDF_RC_PATH}/plugins.local"
-  [[ ! -f "${ZPLUG_LOADFILE}" ]] && touch "${ZPLUG_LOADFILE}"
+  if [[ -f "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/plugins" ]]; then
+    ZPLUG_LOADFILE="${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/plugins"
+  else
+    touch "${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/plugins"
+    ZPLUG_LOADFILE="${NREDF_CONFIG}/shell/${NREDF_SHELL_NAME}/plugins"
+  fi
 
   if [[ -f "${ZPLUG_HOME}/init.zsh" ]]; then
     source "${ZPLUG_HOME}/init.zsh"

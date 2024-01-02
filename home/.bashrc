@@ -1,9 +1,9 @@
 ################################################
 #
-#	For your local overrides there are several configs in ${HOME}/.config/bash/
-#	* aliases.local
-#	* functions.local
-#	* rc.local
+#	For your local overrides there are several configs in ${HOME}/.config/nredf/shell/bash/
+#	* aliases
+#	* functions/
+#	* rc
 #
 #
 ################################################

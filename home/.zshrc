@@ -1,10 +1,10 @@
 ################################################
 #
-#	For your local overrides there are several configs in ${HOME}/.config/zsh/
-#	* aliases.local
-#	* functions.local
-#	* rc.local
-#	* plugins.local
+#	For your local overrides there are several configs in ${HOME}/.config/nredf/shell/zsh
+#	* aliases
+#	* functions/
+#	* rc
+#	* plugins
 #
 ################################################
 
