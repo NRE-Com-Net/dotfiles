@@ -9,6 +9,7 @@ done
 
 _nredf_get_sys_info
 _nredf_set_defaults
+_nredf_backup_rc
 [[ -z ${SUDO_COMMAND} ]] && _nredf_sync_dotfiles
 _nredf_set_ssh_agent
 _nredf_set_local
