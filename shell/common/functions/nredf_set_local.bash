@@ -45,6 +45,10 @@ _nredf_set_local () {
     done
   fi
 
+  if [[ -e "${NREDF_RC_PATH}/functions" ]]; then
+    source "${NREDF_RC_PATH}/functions"
+  fi
+
   if [[ -f "${NREDF_CONFIG}/shell/common/aliases" ]]; then
     source "${NREDF_CONFIG}/shell/common/aliases"
   else
