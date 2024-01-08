@@ -41,7 +41,9 @@ function _nredf_sync_dotfiles() {
       homeshick --batch --force link
       ;;
   esac
-  fc-cache -f
+  if command -pv fc-cache &>/dev/null; then
+    fc-cache -f
+  fi
   _nredf_last_run "" "true"
 }
 
