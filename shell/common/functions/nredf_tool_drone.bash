@@ -9,7 +9,7 @@ function _nredf_tool_drone() {
   local GHUSER="harness"
   local GHREPO="drone-cli"
   local BINARY="drone"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}_${NREDF_OS}_${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="--version 2>/dev/null | awk '{print \$3}'"

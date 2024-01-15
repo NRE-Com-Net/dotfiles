@@ -10,7 +10,7 @@ function _nredf_tool_krew() {
   local GHUSER="kubernetes-sigs"
   local GHREPO="krew"
   local BINARY="krew"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${NREDF_UNAME_LOWER}_${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="version | awk '/^GitTag/{print \$2}'"

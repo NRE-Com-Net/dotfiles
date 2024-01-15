@@ -9,7 +9,7 @@ function _nredf_tool_calico() {
   local GHUSER="projectcalico"
   local GHREPO="calico"
   local BINARY="calicoctl"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${NREDF_UNAME_LOWER}-${NREDF_ARCH}"
   local VERSION_CMD="version | awk '/Client Version/{print \$3}'"

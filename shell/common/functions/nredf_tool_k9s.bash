@@ -9,7 +9,7 @@ function _nredf_tool_k9s() {
   local GHUSER="derailed"
   local GHREPO="k9s"
   local BINARY="k9s"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}_${NREDF_UNAME}_${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="version -s | awk 'tolower(\$0) ~ /version/{print \$2}'"

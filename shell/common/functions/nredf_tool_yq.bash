@@ -9,7 +9,7 @@ function _nredf_tool_yq() {
   local GHUSER="mikefarah"
   local GHREPO="yq"
   local BINARY="yq"
-  local TAGVERSION=$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION}"
   local FILENAME="${GHREPO}_${NREDF_UNAME_LOWER}_${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="-V | awk '{print \$4}'"

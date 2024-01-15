@@ -25,7 +25,7 @@ function _nredf_tool_btop() {
   local GHUSER="aristocratos"
   local GHREPO="btop"
   local BINARY="btop"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${NREDF_UNAMEM}-${NREDF_OS}-${FILENAME_SUFFIX}.tbz"
   local VERSION_CMD="-v | awk '{sub(\",\",\"\"); print \$3}'"

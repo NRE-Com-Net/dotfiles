@@ -11,7 +11,7 @@ function _nredf_tool_kubeadm() {
   fi
 
   local BINARY="kubeadm"
-  local TAGVERSION="$(command curl -L -s https://dl.k8s.io/release/stable.txt)"
+  local TAGVERSION="${1:-$(command curl -L -s https://dl.k8s.io/release/stable.txt)}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}"
   local VERSION_CMD='version -o short'

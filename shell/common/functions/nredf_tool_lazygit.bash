@@ -12,7 +12,7 @@ function _nredf_tool_lazygit() {
   local GHUSER="jesseduffield"
   local GHREPO="lazygit"
   local BINARY="lazygit"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}_${VERSION}_${NREDF_UNAME}_${NREDF_UNAMEM}.tar.gz"
   local VERSION_CMD="-v | awk '{print \$6}' | awk -F= '{gsub(/,/,\"\"); print \$2}'"

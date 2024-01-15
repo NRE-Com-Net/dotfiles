@@ -9,7 +9,7 @@ function _nredf_tool_dust() {
   local GHUSER="bootandy"
   local GHREPO="dust"
   local BINARY="dust"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${TAGVERSION}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tar.gz"
   local VERSION_CMD="--version | awk '/Dust/{print \$2}'"

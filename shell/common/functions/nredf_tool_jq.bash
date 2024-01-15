@@ -9,7 +9,7 @@ function _nredf_tool_jq() {
   local GHUSER="jqlang"
   local GHREPO="jq"
   local BINARY="jq"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${NREDF_OS}-${NREDF_ARCH}"
   local VERSION_CMD="--version"

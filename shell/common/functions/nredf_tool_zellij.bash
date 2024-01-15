@@ -9,7 +9,7 @@ function _nredf_tool_zellij() {
   local GHUSER="zellij-org"
   local GHREPO="zellij"
   local BINARY="zellij"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tar.gz"
   local VERSION_CMD="--version | awk '{print \$2}'"

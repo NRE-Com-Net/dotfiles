@@ -9,7 +9,7 @@ function _nredf_tool_kustomize() {
   local GHUSER="kubernetes-sigs"
   local GHREPO="kustomize"
   local BINARY="kustomize"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}" "${BINARY}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}" "${BINARY}")}"
   local VERSION="${TAGVERSION#${BINARY}\/}"
   local FILENAME="${BINARY}_${TAGVERSION#${BINARY}\/}_${NREDF_UNAME_LOWER}_${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="version"

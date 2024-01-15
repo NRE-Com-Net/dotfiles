@@ -12,7 +12,7 @@ function _nredf_tool_duf() {
   local GHUSER="muesli"
   local GHREPO="duf"
   local BINARY="duf"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}_${VERSION}_${NREDF_OS}_${NREDF_UNAMEM}.tar.gz"
   local VERSION_CMD="-version | awk '/duf/{print \$2}'"

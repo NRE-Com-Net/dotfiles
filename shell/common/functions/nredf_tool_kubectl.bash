@@ -7,7 +7,7 @@ function _nredf_tool_kubectl() {
   _nredf_get_sys_info
 
   local BINARY="kubectl"
-  local TAGVERSION="$(command curl -L -s https://dl.k8s.io/release/stable.txt)"
+  local TAGVERSION="${1:-$(command curl -L -s https://dl.k8s.io/release/stable.txt)}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}"
   local VERSION_CMD="version --output yaml --client | yq '.clientVersion.gitVersion'"

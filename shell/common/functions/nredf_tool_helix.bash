@@ -9,7 +9,7 @@ function _nredf_tool_helix() {
   local GHUSER="helix-editor"
   local GHREPO="helix"
   local BINARY="hx"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${VERSION}-${NREDF_UNAMEM}-${NREDF_OS}.tar.xz"
   local VERSION_CMD="--version | awk '{print \$2}'"

@@ -12,7 +12,7 @@ function _nredf_tool_diskus() {
   local GHUSER="sharkdp"
   local GHREPO="diskus"
   local BINARY="diskus"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${TAGVERSION}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tar.gz"
   local VERSION_CMD="--version | awk '/diskus/{print \$2}'"

@@ -9,7 +9,7 @@ function _nredf_tool_helm() {
   local GHUSER="helm"
   local GHREPO="helm"
   local BINARY="helm"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${TAGVERSION}-${NREDF_UNAME_LOWER}-${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="version --template\='{{ .Version }}' 2>/dev/null"

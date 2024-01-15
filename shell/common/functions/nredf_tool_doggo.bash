@@ -9,7 +9,7 @@ function _nredf_tool_doggo() {
   local GHUSER="mr-karan"
   local GHREPO="doggo"
   local BINARY="doggo"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}_${VERSION}_${NREDF_UNAME_LOWER}_${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="--version | awk '{print \$1}'"

@@ -9,7 +9,7 @@ function _nredf_tool_starship() {
   local GHUSER="starship"
   local GHREPO="starship"
   local BINARY="starship"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tar.gz"
   local VERSION_CMD="--version | awk 'NR==1{print \$2}'"

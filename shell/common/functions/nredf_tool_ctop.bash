@@ -13,7 +13,7 @@ function _nredf_tool_ctop() {
   local GHUSER="bcicen"
   local GHREPO="ctop"
   local BINARY="ctop"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${VERSION}-${NREDF_OS}-${NREDF_ARCH}"
   local VERSION_CMD="-v | awk '{sub(\",\",\"\"); print \$3}'"

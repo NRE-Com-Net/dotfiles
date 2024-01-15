@@ -13,7 +13,7 @@ function _nredf_tool_fzf() {
   local GHUSER="junegunn"
   local GHREPO="fzf"
   local BINARY="fzf"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${VERSION}-${NREDF_UNAME_LOWER}_${NREDF_ARCH}.${FILEEXT:-tar.gz}"
   local VERSION_CMD="--version | awk '{print \$1}'"

@@ -9,7 +9,7 @@ function _nredf_tool_fluxctl() {
   local GHUSER="fluxcd"
   local GHREPO="flux"
   local BINARY="fluxctl"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}_${NREDF_UNAME_LOWER}_${NREDF_ARCH}"
   local VERSION_CMD="version"

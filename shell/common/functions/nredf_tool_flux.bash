@@ -9,7 +9,7 @@ function _nredf_tool_flux() {
   local GHUSER="fluxcd"
   local GHREPO="flux2"
   local BINARY="flux"
-  #local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  #local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local TAGVERSION="v2.1.2"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}_${VERSION}_${NREDF_UNAME_LOWER}_${NREDF_ARCH}.tar.gz"

@@ -9,7 +9,7 @@ function _nredf_tool_kubent() {
   local GHUSER="doitintl"
   local GHREPO="kube-no-trouble"
   local BINARY="kubent"
-  local TAGVERSION="$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${VERSION}-${NREDF_UNAME_LOWER}-${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="--version 2>&1 | awk '{print \$4}'"
