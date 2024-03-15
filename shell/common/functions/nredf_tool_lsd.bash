@@ -12,7 +12,7 @@ function _nredf_tool_lsd() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${TAGVERSION}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tar.gz"
-  local VERSION_CMD="--version | awk '{print \$\2}'"
+  local VERSION_CMD="--version | awk '{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/"
