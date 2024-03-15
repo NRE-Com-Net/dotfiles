@@ -24,5 +24,7 @@ if [[ -d "${ASDF_DIR}" ]]; then
   source "${ASDF_DIR}/completions/asdf.bash"
   fpath=("${ASDF_DIR}/completions ${fpath[@]}")
 fi
+
 _nredf_os_specific
+_nredf_set_local true
 _nredf_remote_multiplexer
