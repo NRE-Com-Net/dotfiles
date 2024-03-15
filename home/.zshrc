@@ -19,3 +19,4 @@ source "${NREDF_DOT_PATH}/shell/common/rc"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 #eval "$(starship init zsh)"
 _nredf_tool_fzf_source
+bindkey '^r' atuin-search

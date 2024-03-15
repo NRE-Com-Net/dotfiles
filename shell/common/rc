@@ -27,4 +27,5 @@ fi
 
 _nredf_os_specific
 _nredf_set_local true
+eval "$(atuin init "${NREDF_SHELL_NAME}" --disable-up-arrow)"
 _nredf_remote_multiplexer

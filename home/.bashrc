@@ -16,3 +16,4 @@ export NREDF_DOT_PATH="${HOME}/.homesick/repos/dotfiles"
 source "${NREDF_DOT_PATH}/shell/common/rc"
 #eval "$(starship init bash)"
 _nredf_tool_fzf_source
+bind -x '"\C-r": __atuin_history'

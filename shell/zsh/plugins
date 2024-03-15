@@ -47,3 +47,4 @@ zplug "hlissner/zsh-autopair"
 zplug "arzzen/calc.plugin.zsh"
 zplug "chitoku-k/fzf-zsh-completions"
 zplug "romkatv/powerlevel10k", as:theme, depth:1
+zplug "atuinsh/atuin"

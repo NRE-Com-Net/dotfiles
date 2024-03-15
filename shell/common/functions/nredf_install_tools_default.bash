@@ -4,6 +4,7 @@
 
 function _nredf_install_tools_default() {
   echo -e "\033[1mLooking for fresh batteries\033[0m"
+  _nredf_tool_atuin
   _nredf_tool_btop
   _nredf_tool_ctop
   _nredf_tool_diskus
