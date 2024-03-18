@@ -48,8 +48,10 @@ function _nredf_sync_dotfiles() {
 }
 
 function _nredf_install_homeshick() {
-  echo -e '\033[1mInstalling homesick\033[0m'
-  git clone https://github.com/andsens/homeshick.git "${HOME}/.homesick/repos/homeshick"
+  if [[ ! -d "${HOME}/.homesick" ]]; then
+    echo -e '\033[1mInstalling homesick\033[0m'
+    git clone https://github.com/andsens/homeshick.git "${HOME}/.homesick/repos/homeshick"
+  fi
   source "${HOME}/.homesick/repos/homeshick/homeshick.sh"
   fpath=("${HOME}/.homesick/repos/homeshick/completions" "${fpath[@]}")
 }
@@ -61,6 +63,7 @@ function _nredf_add_castles() {
       return 0
     else
       _nredf_install_homeshick
+      homeshick ls | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" | awk '{$1=$1;print $2}' > "${XDG_CONFIG_HOME}/nredf/CASTLES"
     fi
   else
     diff --changed-group-format='%>' --unchanged-group-format='' \

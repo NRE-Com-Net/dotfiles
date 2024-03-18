@@ -2,14 +2,11 @@
 #
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
-alias r='ranger --cmd="set preview_files=true" --cmd="set use_preview_script=true"'
 alias ls="lsd"
 alias ll="lsd -lFh"
 alias la="lsd -lAFh"
-alias ag="ag --hidden --nogroup"
 alias root="sudo -E \"HOME=\${HOME}\" su -m"
-alias tmux="tmux -2"
-alias aptall="apt update && apt full-upgrade -y; apt autoremove --purge -y; apt autoclean"
+alias aptall="sudo apt update && sudo apt full-upgrade -y; sudo apt autoremove --purge -y; sudo apt autoclean"
 alias k="kubectl"
 alias kctx="kubectl ctx"
 alias kns="kubectl ns"
