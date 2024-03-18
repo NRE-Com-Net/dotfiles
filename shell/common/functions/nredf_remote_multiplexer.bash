@@ -4,10 +4,10 @@
 
 function _nredf_remote_multiplexer() {
   local HOSTNAME
-  if command -pv hostname; then
+  if command -pv hostname &>/dev/null; then
     HOSTNAME=$(hostname -s)
-  elif command -pv hostnamectl; then
-    HOSTNAME=$(hostnamectl hostname )
+  elif command -pv hostnamectl &>/dev/null; then
+    HOSTNAME=$(hostnamectl hostname)
   fi
   if [[ "${TERM_PROGRAM}" != "vscode" ]]; then
     if [[ -n "${SSH_TTY}" || -n "${WSL_DISTRO_NAME}" ]] && command -v zellij &>/dev/null; then
