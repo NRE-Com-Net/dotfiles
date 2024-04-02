@@ -17,13 +17,15 @@ function _nredf_zplug() {
     source "${ZPLUG_PLUGINS}"
     source "${ZPLUG_LOADFILE}"
 
-    if ! zplug check; then
-      zplug install
-    fi
+    if [[ -z ${SUDO_COMMAND} ]]; then
+      if ! zplug check; then
+        zplug install
+      fi
 
-    if ! _nredf_last_run; then
-      zplug update
-      _nredf_last_run "" "true"
+      if ! _nredf_last_run; then
+        zplug update
+        _nredf_last_run "" "true"
+      fi
     fi
 
     # source plugins and add commands to the PATH
