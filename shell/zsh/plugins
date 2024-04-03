@@ -1,4 +1,4 @@
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug 'NemesisRE/zplug', hook-build:'zplug --self-manage'
 
 # OH-MY-ZSH
 zplug "ohmyzsh/ohmyzsh", use:"lib/*.zsh", \
@@ -47,4 +47,4 @@ zplug "hlissner/zsh-autopair"
 zplug "arzzen/calc.plugin.zsh"
 zplug "chitoku-k/fzf-zsh-completions"
 zplug "romkatv/powerlevel10k", as:theme, depth:1
-zplug "atuinsh/atuin"
+zplug "atuinsh/atuin", at:main
