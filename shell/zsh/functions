@@ -33,7 +33,7 @@ function _nredf_zplug() {
   else
     echo -e '\033[1mSetup zplug\033[0m'
     [[ -d "${ZPLUG_HOME}" ]] && rm -rf "${ZPLUG_HOME}"
-    git clone https://github.com/zplug/zplug "${ZPLUG_HOME}"
+    git clone https://github.com/NemesisRE/zplug "${ZPLUG_HOME}"
     source "${ZPLUG_HOME}/init.zsh"
     source "${ZPLUG_PLUGINS}"
     source "${ZPLUG_LOADFILE}"
