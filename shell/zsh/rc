@@ -7,8 +7,6 @@
 [[ ! -d "${XDG_CACHE_HOME}/zsh" ]] && mkdir -p "${XDG_CACHE_HOME}/zsh"
 fpath=("${HOME}/.config/completion/zsh" "${fpath[@]}")
 
-source "${NREDF_RC_PATH}/bindings"
-
 _nredf_zplug
 source "${ZPLUG_PLUGINS}"
 source "${ZPLUG_LOADFILE}"
