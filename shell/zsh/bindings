@@ -1,0 +1,1 @@
+bindkey "^[L" _nredf_cls
