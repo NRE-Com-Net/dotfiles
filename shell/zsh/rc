@@ -8,6 +8,9 @@
 fpath=("${HOME}/.config/completion/zsh" "${fpath[@]}")
 
 _nredf_zplug
+source "${ZPLUG_PLUGINS}"
+source "${ZPLUG_LOADFILE}"
+
 export HISTFILE="${XDG_STATE_HOME}"/zsh/history
 rm -f "${HOME}/.zcompdump"
 compinit -u -d "${HOME}/.zcompdump"
