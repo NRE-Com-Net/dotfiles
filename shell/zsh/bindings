@@ -1,1 +1,2 @@
-bindkey "^[L" _nredf_cls
+zle -N _nredf_cls
+bindkey "^l" _nredf_cls

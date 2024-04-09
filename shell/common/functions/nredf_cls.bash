@@ -7,7 +7,7 @@ function _nredf_cls() {
   COUNT=1
   shopt -s checkwinsize 2>/dev/null
   local LINES=${LINES:-(tput lines)}
-  local LINES_BEFOREEND=$(( LINES - 1 ))
+  local LINES_BEFOREEND=$(( LINES - 2 ))
   while ((COUNT<=LINES_BEFOREEND)); do
     echo ""
     ((COUNT++))

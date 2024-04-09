@@ -6,8 +6,6 @@ for NREDF_FUNCTIONS in "${NREDF_DOT_PATH}/shell/common/functions/"*; do
   source "${NREDF_FUNCTIONS}"
 done
 
-source "${NREDF_RC_PATH}/bindings"
-
 _nredf_get_sys_info
 _nredf_set_defaults
 _nredf_backup_rc
@@ -30,4 +28,5 @@ fi
 _nredf_os_specific
 _nredf_set_local true
 eval "$(atuin init "${NREDF_SHELL_NAME}")"
+source "${NREDF_RC_PATH}/bindings"
 _nredf_remote_multiplexer
