@@ -10,6 +10,7 @@ _nredf_install_tools_k8s_ops () {
   _nredf_tool_fluxctl;
   _nredf_tool_flux;
   _nredf_tool_helm;
+  _nredf_tool_oras;
   _nredf_tool_k9s;
   _nredf_tool_velero;
   _nredf_tool_kustomize;
