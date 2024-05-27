@@ -6,6 +6,10 @@
 function _nredf_tool_dust() {
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="bootandy"
   local GHREPO="dust"
   local BINARY="dust"
@@ -19,5 +23,5 @@ function _nredf_tool_dust() {
     cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/${BINARY}" "${XDG_BIN_HOME}/"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

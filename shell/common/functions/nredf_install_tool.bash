@@ -10,6 +10,7 @@ function _nredf_install_tool() {
   local VERSION_CMD=${5}
   local DOWNLOAD_CMD=${6}
   local EXTRACT_CMD=${7}
+  local FORCE=${8:-false}
 
   if [[ -n ${BASH_VERSION} ]]; then
     local CURRENT_TOOL="${FUNCNAME[1]}"
@@ -20,9 +21,10 @@ function _nredf_install_tool() {
     echo -e "\033[1;33m Unsupported Shell \033[0m"
     return 1
   fi
-
-  if _nredf_last_run "${CURRENT_TOOL}"; then
-    return 0
+  if ! ${FORCE}; then
+    if _nredf_last_run "${CURRENT_TOOL}"; then
+      return 0
+    fi
   fi
 
   if [[ ! -f "${XDG_BIN_HOME}/${BINARY}" ]]; then

@@ -10,6 +10,10 @@ function _nredf_tool_ctop() {
 
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="bcicen"
   local GHREPO="ctop"
   local BINARY="ctop"
@@ -22,5 +26,5 @@ function _nredf_tool_ctop() {
     cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

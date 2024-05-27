@@ -6,6 +6,10 @@
 function _nredf_tool_jq() {
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="jqlang"
   local GHREPO="jq"
   local BINARY="jq"
@@ -18,5 +22,5 @@ function _nredf_tool_jq() {
     cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

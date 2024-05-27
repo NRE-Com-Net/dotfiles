@@ -6,6 +6,10 @@
 function _nredf_tool_btop() {
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local FILENAME_SUFFIX
   case ${NREDF_OS} in
     macos)
@@ -35,5 +39,5 @@ function _nredf_tool_btop() {
     cp -f "${NREDF_DOWNLOADS}/${BINARY}/bin/${BINARY}" "${XDG_BIN_HOME}/"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

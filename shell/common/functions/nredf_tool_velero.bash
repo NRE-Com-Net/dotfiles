@@ -6,6 +6,10 @@
 function _nredf_tool_velero() {
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="vmware-tanzu"
   local GHREPO="velero"
   local BINARY="velero"
@@ -19,7 +23,7 @@ function _nredf_tool_velero() {
     cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/${BINARY}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 
   _nredf_create_tool_completion "${BINARY}" "completion ${NREDF_SHELL_NAME}"
 }

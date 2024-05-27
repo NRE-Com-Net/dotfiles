@@ -6,6 +6,10 @@
 function _nredf_tool_lsd() {
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="lsd-rs"
   local GHREPO="lsd"
   local BINARY="lsd"
@@ -21,5 +25,5 @@ function _nredf_tool_lsd() {
     cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/autocomplete/${BINARY}.bash-completion" "${XDG_CONFIG_HOME}/completion/bash/${BINARY}.bash"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

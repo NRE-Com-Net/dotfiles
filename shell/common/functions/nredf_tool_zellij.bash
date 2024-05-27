@@ -6,6 +6,10 @@
 function _nredf_tool_zellij() {
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="zellij-org"
   local GHREPO="zellij"
   local BINARY="zellij"
@@ -18,7 +22,7 @@ function _nredf_tool_zellij() {
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 
   _nredf_create_tool_completion "${BINARY}" "setup --generate-completion ${NREDF_SHELL_NAME}"
 }

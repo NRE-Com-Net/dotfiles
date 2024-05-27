@@ -5,6 +5,11 @@
 
 function _nredf_tool_fd() {
   _nredf_get_sys_info
+
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   if [[ "${NREDF_UNAMEM}" == "aarch64" ]]; then
     NREDF_PLATFORM="unknown-linux-gnu"
   fi
@@ -24,5 +29,5 @@ function _nredf_tool_fd() {
     cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/autocomplete/fd.bash" "${XDG_CONFIG_HOME}/completion/bash/fd.bash"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

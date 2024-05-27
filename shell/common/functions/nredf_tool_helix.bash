@@ -6,6 +6,10 @@
 function _nredf_tool_helix() {
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="helix-editor"
   local GHREPO="helix"
   local BINARY="hx"
@@ -21,5 +25,5 @@ function _nredf_tool_helix() {
     cp -rf "${NREDF_DOWNLOADS}/${FILENAME%.tar.xz}/runtime" "${XDG_CONFIG_HOME}/${GHREPO}/"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

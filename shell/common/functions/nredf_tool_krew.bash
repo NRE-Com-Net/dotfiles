@@ -7,6 +7,10 @@ function _nredf_tool_krew() {
   [[ ! -f "${XDG_BIN_HOME}/kubectl" ]] && return 1
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="kubernetes-sigs"
   local GHREPO="krew"
   local BINARY="krew"
@@ -20,7 +24,7 @@ function _nredf_tool_krew() {
     cp -f "${XDG_BIN_HOME}/${FILENAME%.tar.gz}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
-  if _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"; then
+  if _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"; then
     "${XDG_BIN_HOME}/${BINARY}" install krew 2>/dev/null
   fi
 

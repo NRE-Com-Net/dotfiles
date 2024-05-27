@@ -6,6 +6,10 @@
 function _nredf_tool_yq() {
   _nredf_get_sys_info
 
+  if [[ -n ${1} ]]; then
+    FORCE_INSTALL=true
+  fi
+
   local GHUSER="mikefarah"
   local GHREPO="yq"
   local BINARY="yq"
@@ -19,7 +23,7 @@ function _nredf_tool_yq() {
     cp -f "${XDG_BIN_HOME}/${FILENAME%.tar.gz}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}"
+  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 
   _nredf_create_tool_completion "${BINARY}" "shell-completion ${NREDF_SHELL_NAME}"
 }
