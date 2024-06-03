@@ -9,7 +9,11 @@ function _nredf_cleanup_dotfiles() {
 
   if [[ "${NREDF_OS}" == "linux" ]]; then
     echo -e '\033[1mSearch and delete broken symlinks\033[0m'
-    find "${HOME}" -type l ! -exec test -e {} \; -delete
+    if find . -xtype l &>/dev/null; then
+      find "${HOME}" -maxdepth 1 -iname ".*" -print0 | xargs -0 -I"{.}" find "{.}" -xtype l -delete
+    else
+      find "${HOME}" -maxdepth 1 -iname ".*" -print0 | xargs -0 -I"{.}" find "{.}" -type l ! -exec test -e {} \; -delete
+    fi
     _nredf_last_run "" "true"
   fi
 }
