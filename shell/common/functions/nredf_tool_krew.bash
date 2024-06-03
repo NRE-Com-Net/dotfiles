@@ -31,7 +31,7 @@ function _nredf_tool_krew() {
   if [[ -f "${XDG_BIN_HOME}/${BINARY}" ]]; then
     export KREW_PLUGINS=()
     export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-    if _nredf_last_run; then
+    if _nredf_last_run "_krewplugin_upgrade"; then
       return 0
     fi
 
@@ -43,7 +43,7 @@ function _nredf_tool_krew() {
     echo -e '\033[1m    Updating krew plugins\033[0m'
     kubectl krew update 2>/dev/null
     if kubectl krew upgrade 2>/dev/null; then
-      _nredf_last_run "" "true"
+      _nredf_last_run "_krewplugin_upgrade" "true"
     fi
 
     KREW_PLUGINS+=("ctx")
