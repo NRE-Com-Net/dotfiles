@@ -10,10 +10,10 @@ function _nredf_github_download_latest() {
   local VERSIONURLENC
 
   if [[ ${VERSION} == "latest" ]]; then
-    command curl -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/latest/download/${GHFILE}"
+    command curl "${NREDF_CURL_GITHUB_AUTH}" -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/latest/download/${GHFILE}"
   else
     VERSIONURLENC=$(_nredf_urlencode "${VERSION}")
-    command curl -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/download/${VERSIONURLENC}/${GHFILE}"
+    command curl "${NREDF_CURL_GITHUB_AUTH}" -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/download/${VERSIONURLENC}/${GHFILE}"
   fi
 
   return ${?}

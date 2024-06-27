@@ -106,4 +106,11 @@ function _nredf_set_defaults() {
   if command -v dircolors &>/dev/null; then
     if [[ -e "${XDG_CONFIG_HOME}/dircolors" ]]; then eval "$(dircolors "${XDG_CONFIG_HOME}/dircolors")"; fi
   fi
+
+  if [[ -f "${NREDF_CONFIG}/GITHUB.AUTH" ]]; then
+    eval "$(cat "${NREDF_CONFIG}"/GITHUB.AUTH)"
+    if [[ -n ${NREDF_GITHUB_USERNAME} && -n ${NREDF_GITHUB_TOKEN} ]]; then
+      export NREDF_CURL_GITHUB_AUTH="-u ${NREDF_GITHUB_USERNAME}:${NREDF_GITHUB_TOKEN}"
+    fi
+  fi
 }

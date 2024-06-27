@@ -37,10 +37,10 @@ function _nredf_install_tool() {
     if [[ "${TAGVERSION}" == "" ]]; then
       echo -e "\033[1;33m  \U274C ${BINARY} version could not be fetched \033[0m"
       # shellcheck disable=SC2155
-      local RATELIMIT_REMAINING=$(curl -LIs https://api.github.com/meta | awk '/x-ratelimit-remaining/{print $2}')
+      local RATELIMIT_REMAINING=$(curl "${NREDF_CURL_GITHUB_AUTH}" -LIs https://api.github.com/meta | awk '/x-ratelimit-remaining/{print $2}')
       if [[ "${RATELIMIT_REMAINING}" == "0" ]]; then
         # shellcheck disable=SC2155
-        #local RATELIMIT_RESET="$(curl -LIs https://api.github.com/meta | awk '/x-ratelimit-reset/{print $2}')"
+        #local RATELIMIT_RESET="$(curl "${NREDF_CURL_GITHUB_AUTH}" -LIs https://api.github.com/meta | awk '/x-ratelimit-reset/{print $2}')"
         # shellcheck disable=SC2155
         #local CURRENT_TIME="$(date +%s)"
         echo -e "\033[1;31m    \U21B3 Github rate limit exceeded\033[0m"
