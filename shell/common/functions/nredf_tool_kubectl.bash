@@ -14,7 +14,7 @@ function _nredf_tool_kubectl() {
   local TAGVERSION="${1:-$(command curl -L -s https://dl.k8s.io/release/stable.txt)}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}"
-  local VERSION_CMD="version --output yaml --client | yq '.clientVersion.gitVersion'"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} version --output yaml --client | yq '.clientVersion.gitVersion'"
   local DOWNLOAD_CMD="command curl -Lfso \"${NREDF_DOWNLOADS}/${FILENAME}\" \"https://dl.k8s.io/release/${TAGVERSION}/bin/${NREDF_UNAME_LOWER}/${NREDF_ARCH}/${BINARY}\""
   local EXTRACT_CMD='
     cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"

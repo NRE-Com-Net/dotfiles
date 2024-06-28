@@ -16,7 +16,7 @@ function _nredf_tool_calico() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${NREDF_UNAME_LOWER}-${NREDF_ARCH}"
-  local VERSION_CMD="version | awk '/Client Version/{print \$3}'"
+  local VERSION_CMD="DATASTORE_TYPE=kubernetes KUBECONFIG=/dev/null ${XDG_BIN_HOME}/${BINARY} version | awk '/Client Version/{print \$3}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"

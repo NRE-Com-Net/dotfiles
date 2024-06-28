@@ -16,7 +16,7 @@ function _nredf_tool_helm() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${TAGVERSION}-${NREDF_UNAME_LOWER}-${NREDF_ARCH}.tar.gz"
-  local VERSION_CMD="version --template\='{{ .Version }}' 2>/dev/null"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} version --template\='{{ .Version }}' 2>/dev/null"
   local DOWNLOAD_CMD="command curl -Lfso \"${NREDF_DOWNLOADS}/${FILENAME}\" \"https://get.helm.sh/${FILENAME}\""
   local EXTRACT_CMD='
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"

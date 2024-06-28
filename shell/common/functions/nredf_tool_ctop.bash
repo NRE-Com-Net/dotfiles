@@ -20,7 +20,7 @@ function _nredf_tool_ctop() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${VERSION}-${NREDF_OS}-${NREDF_ARCH}"
-  local VERSION_CMD="-v | awk '{sub(\",\",\"\"); print \$3}'"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} -v | awk '{sub(\",\",\"\"); print \$3}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"

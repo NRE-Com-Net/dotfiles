@@ -16,7 +16,7 @@ function _nredf_tool_k9s() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}_${NREDF_UNAME}_${NREDF_ARCH}.tar.gz"
-  local VERSION_CMD="version -s | awk 'tolower(\$0) ~ /version/{print \$2}'"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} version -s | awk 'tolower(\$0) ~ /version/{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/" "${BINARY}"

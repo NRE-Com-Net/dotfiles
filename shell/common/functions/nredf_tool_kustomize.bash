@@ -16,7 +16,7 @@ function _nredf_tool_kustomize() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}" "${BINARY}")}"
   local VERSION="${TAGVERSION#${BINARY}\/}"
   local FILENAME="${BINARY}_${TAGVERSION#${BINARY}\/}_${NREDF_UNAME_LOWER}_${NREDF_ARCH}.tar.gz"
-  local VERSION_CMD="version"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} version"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/" "${BINARY}"

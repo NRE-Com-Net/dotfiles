@@ -32,7 +32,7 @@ function _nredf_tool_btop() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${NREDF_UNAMEM}-${NREDF_OS}-${FILENAME_SUFFIX}.tbz"
-  local VERSION_CMD="-v | awk '{sub(\",\",\"\"); print \$3}'"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} -v | awk '{sub(\",\",\"\"); print \$3}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     tar -xjf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"

@@ -16,7 +16,7 @@ function _nredf_tool_kubeseal() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}" "v")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${VERSION}-${NREDF_UNAME_LOWER}-${NREDF_ARCH}.tar.gz"
-  local VERSION_CMD="--version | awk '{print \$3}'"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$3}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/" "${BINARY}"

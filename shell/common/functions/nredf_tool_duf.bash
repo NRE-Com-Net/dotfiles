@@ -20,7 +20,7 @@ function _nredf_tool_duf() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}_${VERSION}_${NREDF_OS}_${NREDF_UNAMEM}.tar.gz"
-  local VERSION_CMD="-version | awk '/duf/{print \$2}'"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} -version | awk '/duf/{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/" ${BINARY}

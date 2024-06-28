@@ -33,7 +33,7 @@ function _nredf_install_tool() {
     rm -rf "${XDG_BIN_HOME:?}/${BINARY:?}"
   elif [[ -x "${XDG_BIN_HOME}/${BINARY}" ]]; then
     local CURRENT_VERSION
-    CURRENT_VERSION="$(eval "${XDG_BIN_HOME}/${BINARY} ${VERSION_CMD}")"
+    CURRENT_VERSION="$(eval "${VERSION_CMD}")"
     if [[ "${TAGVERSION}" == "" ]]; then
       echo -e "\033[1;33m  \U274C ${BINARY} version could not be fetched \033[0m"
       # shellcheck disable=SC2155
