@@ -13,6 +13,10 @@ _nredf_backup_rc
 _nredf_set_ssh_agent
 _nredf_set_local
 [[ -z ${SUDO_COMMAND} ]] && _nredf_cleanup_dotfiles
+if command -v gh &>/dev/null && ! gh auth status &>/dev/null; then
+  echo -e "\033[1;33mTo get started with GitHub CLI, please run:\033[0m\033[1m gh auth login\033[0m"
+  echo -e "\033[1;33mthis will simplify the tool downloads too\033[0m"
+fi
 [[ -z ${SUDO_COMMAND} ]] && _nredf_install_tools_default
 
 # run shell exclusive things

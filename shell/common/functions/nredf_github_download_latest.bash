@@ -9,7 +9,7 @@ function _nredf_github_download_latest() {
   local VERSION=${4}
   local VERSIONURLENC
 
-  if command -v gh &>/dev/null; then
+  if command -v gh &>/dev/null && gh auth status &>/dev/null; then
     gh release download --skip-existing -p "${GHFILE}" -R "${GHUSER}/${GHREPO}" -D "${NREDF_DOWNLOADS}" "${VERSION}"
   else
     if [[ ${VERSION} == "latest" ]]; then
