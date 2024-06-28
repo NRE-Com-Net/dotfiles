@@ -3,7 +3,7 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 # shellcheck disable=SC2016,SC2155
 
-function _nredf_tool_github-cli() {
+function _nredf_tool_githubcli() {
   _nredf_get_sys_info
 
   if [[ -n ${1} ]]; then

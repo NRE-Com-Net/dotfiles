@@ -7,15 +7,19 @@ function _nredf_github_latest_release() {
   local GHREPO=${2}
   local TAGREGEX=${3:-""}
   local PREFIX=${4:-""}
-  local CACHEFILE="${NREDF_GHCACHE}/nredf_github_latest_release-${GHUSER}-${GHREPO}" local GITHUB_AUTH
+  local CACHEFILE="${NREDF_GHCACHE}/nredf_github_latest_release-${GHUSER}-${GHREPO}"
 
   if [[ ! -s "${CACHEFILE}" || $(date -r "${CACHEFILE}" +%s) -le $(($(date +%s) - 3600 )) ]]; then
-    if command -v jq &>/dev/null; then
-      # shellcheck disable=SC2086
-      command curl "${NREDF_CURL_GITHUB_AUTH}" -fs "https://api.github.com/repos/${GHUSER}/${GHREPO}/releases" | command jq -r 'first(.[].tag_name | select(startswith("'${TAGREGEX}'"))) | sub("'^${PREFIX}'"; "")' > "${CACHEFILE}"
+    if command -v gh &>/dev/null; then
+      gh release list --exclude-drafts --exclude-pre-releases -R "${GHUSER}/${GHREPO}" --json tagName,isLatest --jq '.[] | select(.isLatest).tagName'
     else
-      # shellcheck disable=SC2086
-      command curl "${NREDF_CURL_GITHUB_AUTH}" -fs "https://api.github.com/repos/${GHUSER}/${GHREPO}/releases" | command grep -Eo '"tag_name":[![:space:]]*"'${TAGREGEX}'[-.0-9a-zA-Z]*"' | command awk -F '"' '{print $4}' | command sed -e "s/^${PREFIX}//" | command head -n1 > "${CACHEFILE}"
+      if command -v jq &>/dev/null; then
+        # shellcheck disable=SC2086
+        command curl "${NREDF_CURL_GITHUB_AUTH}" -fs "https://api.github.com/repos/${GHUSER}/${GHREPO}/releases" | command jq -r 'first(.[].tag_name | select(startswith("'${TAGREGEX}'"))) | sub("'^${PREFIX}'"; "")' > "${CACHEFILE}"
+      else
+        # shellcheck disable=SC2086
+        command curl "${NREDF_CURL_GITHUB_AUTH}" -fs "https://api.github.com/repos/${GHUSER}/${GHREPO}/releases" | command grep -Eo '"tag_name":[![:space:]]*"'${TAGREGEX}'[-.0-9a-zA-Z]*"' | command awk -F '"' '{print $4}' | command sed -e "s/^${PREFIX}//" | command head -n1 > "${CACHEFILE}"
+      fi
     fi
   fi
   cat "${CACHEFILE}"

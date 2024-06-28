@@ -13,6 +13,7 @@ function _nredf_install_tools_default() {
   _nredf_tool_dust
   _nredf_tool_fd
   _nredf_tool_fzf
+  _nredf_tool_githubcli
   _nredf_tool_helix
   _nredf_tool_jq
   _nredf_tool_lazygit
