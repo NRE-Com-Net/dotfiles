@@ -62,11 +62,12 @@ function _nredf_install_tool() {
   else
     echo -e "\033[1;36m  \U25B6 ${BINARY} is getting installed in version ${VERSION}\033[0m"
   fi
-  eval "${DOWNLOAD_CMD}"
-  if [[ -f "${NREDF_DOWNLOADS}/${FILENAME}" ]]; then
-    eval "${EXTRACT_CMD}"
-  else
-    echo -e "\033[1;31m    \U274C Installation failed\033[0m"
+  if ! eval "${DOWNLOAD_CMD}"; then
+    echo -e "\033[1;31m    \U274C Download failed\033[0m"
+    return 1
+  fi
+  if ! eval "${EXTRACT_CMD}"; then
+    echo -e "\033[1;31m    \U274C Extration failed\033[0m"
     return 1
   fi
   if [[ -f "${XDG_BIN_HOME}/${BINARY}" ]]; then

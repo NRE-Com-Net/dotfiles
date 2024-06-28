@@ -11,7 +11,7 @@ function _nredf_github_latest_release() {
 
   if [[ ! -s "${CACHEFILE}" || $(date -r "${CACHEFILE}" +%s) -le $(($(date +%s) - 3600 )) ]]; then
     if command -v gh &>/dev/null && gh auth status &>/dev/null; then
-      gh release list --exclude-drafts --exclude-pre-releases -R "${GHUSER}/${GHREPO}" --json tagName,isLatest --jq '.[] | select(.isLatest).tagName'
+      PAGER="" gh release list --exclude-drafts --exclude-pre-releases -R "${GHUSER}/${GHREPO}" --json tagName,isLatest --jq '.[] | select(.isLatest).tagName' > "${CACHEFILE}"
     else
       if command -v jq &>/dev/null; then
         # shellcheck disable=SC2086
