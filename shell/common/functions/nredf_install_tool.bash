@@ -4,13 +4,12 @@
 
 function _nredf_install_tool() {
   local BINARY=${1}
-  local FILENAME=${2}
-  local TAGVERSION=${3}
-  local VERSION=${4}
-  local VERSION_CMD=${5}
-  local DOWNLOAD_CMD=${6}
-  local EXTRACT_CMD=${7}
-  local FORCE=${8:-false}
+  local TAGVERSION=${2}
+  local VERSION=${3}
+  local VERSION_CMD=${4}
+  local DOWNLOAD_CMD=${5}
+  local EXTRACT_CMD=${6}
+  local FORCE=${7:-false}
 
   if [[ -n ${BASH_VERSION} ]]; then
     local CURRENT_TOOL="${FUNCNAME[1]}"

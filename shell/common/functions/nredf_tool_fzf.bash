@@ -38,7 +38,7 @@ function _nredf_tool_fzf() {
       command curl "${NREDF_CURL_GITHUB_AUTH}" -Lfso "${HOME}/.config/fzf/${FZF_FILE}" "https://raw.githubusercontent.com/${GHUSER}/${GHREPO}/master/shell/${FZF_FILE}"
     done
   '
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
+  _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }
 
 function _nredf_tool_fzf_source() {

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
-# shellcheck disable=SC2016,SC2155
+# shellcheck disable=SC2016,SC2155,SC2153
 
 function _nredf_tool_lazygit() {
   _nredf_get_sys_info
@@ -26,5 +26,5 @@ function _nredf_tool_lazygit() {
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/" "${BINARY}"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
+  _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

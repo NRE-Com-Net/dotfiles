@@ -25,5 +25,5 @@ function _nredf_tool_helix() {
     cp -rf "${NREDF_DOWNLOADS}/${FILENAME%.tar.xz}/runtime" "${XDG_CONFIG_HOME}/${GHREPO}/"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
+  _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }

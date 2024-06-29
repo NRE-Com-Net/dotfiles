@@ -25,5 +25,5 @@ function _nredf_tool_lsd() {
     cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/autocomplete/${BINARY}.bash-completion" "${XDG_CONFIG_HOME}/completion/bash/${BINARY}.bash"
   '
 
-  _nredf_install_tool "${BINARY}" "${FILENAME}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
+  _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
 }
