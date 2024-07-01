@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
+# shellcheck disable=SC2086
 
 function _nredf_github_download_latest() {
   local GHUSER=${1}
@@ -13,10 +14,10 @@ function _nredf_github_download_latest() {
     gh release download --skip-existing -p "${GHFILE}" -R "${GHUSER}/${GHREPO}" -D "${NREDF_DOWNLOADS}" "${VERSION}"
   else
     if [[ ${VERSION} == "latest" ]]; then
-      command curl "${NREDF_CURL_GITHUB_AUTH}" -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/latest/download/${GHFILE}"
+      command curl ${NREDF_CURL_GITHUB_AUTH} -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/latest/download/${GHFILE}"
     else
       VERSIONURLENC=$(_nredf_urlencode "${VERSION}")
-      command curl "${NREDF_CURL_GITHUB_AUTH}" -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/download/${VERSIONURLENC}/${GHFILE}"
+      command curl ${NREDF_CURL_GITHUB_AUTH} -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/download/${VERSIONURLENC}/${GHFILE}"
     fi
   fi
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
-# shellcheck disable=SC2016,SC2155
+# shellcheck disable=SC2016,SC2155,SC2086
 
 function _nredf_tool_fzf() {
   _nredf_get_sys_info
@@ -25,7 +25,7 @@ function _nredf_tool_fzf() {
   local EXTRACT_CMD='
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/"
 
-    #command curl "${NREDF_CURL_GITHUB_AUTH}" -Lfso "${XDG_BIN_HOME}/fzf-tmux" "https://raw.githubusercontent.com/${GHUSER}/${GHREPO}/master/bin/fzf-tmux"
+    #command curl ${NREDF_CURL_GITHUB_AUTH} -Lfso "${XDG_BIN_HOME}/fzf-tmux" "https://raw.githubusercontent.com/${GHUSER}/${GHREPO}/master/bin/fzf-tmux"
 
     #if [[ -f "${XDG_BIN_HOME}/fzf-tmux" ]]; then
     #  chmod +x "${XDG_BIN_HOME}/fzf-tmux"
@@ -35,7 +35,7 @@ function _nredf_tool_fzf() {
 
     [[ ! -d ${HOME}/.config/fzf ]] && /bin/mkdir "${HOME}/.config/fzf"
     for FZF_FILE in completion.bash completion.zsh key-bindings.bash key-bindings.zsh key-bindings.fish; do
-      command curl "${NREDF_CURL_GITHUB_AUTH}" -Lfso "${HOME}/.config/fzf/${FZF_FILE}" "https://raw.githubusercontent.com/${GHUSER}/${GHREPO}/master/shell/${FZF_FILE}"
+      command curl ${NREDF_CURL_GITHUB_AUTH} -Lfso "${HOME}/.config/fzf/${FZF_FILE}" "https://raw.githubusercontent.com/${GHUSER}/${GHREPO}/master/shell/${FZF_FILE}"
     done
   '
   _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
