@@ -16,7 +16,7 @@ function _nredf_github_latest_release() {
     else
       if command -v jq &>/dev/null; then
         # shellcheck disable=SC2086
-        command curl ${NREDF_CURL_GITHUB_AUTH} -fs "https://api.github.com/repos/${GHUSER}/${GHREPO}/releases" | command jq -r 'first(.[].tag_name | select(startswith("'${TAGREGEX}'"))) | sub("'^${PREFIX}'"; "")' > "${CACHEFILE}"
+        command curl ${NREDF_CURL_GITHUB_AUTH} -fs "https://api.github.com/repos/${GHUSER}/${GHREPO}/releases" | command jq -r 'first(.[] | select(.prerelease == false and .draft == false).tag_name | select(startswith("'${TAGREGEX}'"))) | sub("'^${PREFIX}'"; "")' > "${CACHEFILE}"
       else
         # shellcheck disable=SC2086
         command curl ${NREDF_CURL_GITHUB_AUTH} -fs "https://api.github.com/repos/${GHUSER}/${GHREPO}/releases" | command grep -Eo '"tag_name":[![:space:]]*"'${TAGREGEX}'[-.0-9a-zA-Z]*"' | command awk -F '"' '{print $4}' | command sed -e "s/^${PREFIX}//" | command head -n1 > "${CACHEFILE}"
