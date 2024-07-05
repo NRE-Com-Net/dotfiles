@@ -5,7 +5,9 @@
 function _nredf_os_specific() {
   case ${NREDF_OS} in
     linux)
-      # Nothing yet
+      if [[ $(uname -r) =~ WSL2 ]]; then
+        export BROWSER="cmd.exe /c start"
+      fi
       ;;
     darwin)
       if [[ -d "${HOME}/.local/share/NerdFonts" && -d "${HOME}/Library/Fonts" ]]; then
