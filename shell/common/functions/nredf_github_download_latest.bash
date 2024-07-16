@@ -11,7 +11,7 @@ function _nredf_github_download_latest() {
   local VERSIONURLENC
 
   if command -v gh &>/dev/null && gh auth status &>/dev/null; then
-    gh release download -p "${GHFILE}" -R "${GHUSER}/${GHREPO}" -D "${NREDF_DOWNLOADS}" "${VERSION}"
+    gh release download --clobber -p "${GHFILE}" -R "${GHUSER}/${GHREPO}" -D "${NREDF_DOWNLOADS}" "${VERSION}"
   else
     if [[ ${VERSION} == "latest" ]]; then
       command curl ${NREDF_CURL_GITHUB_AUTH} -Lfso "${NREDF_DOWNLOADS}/${GHFILE}" "https://github.com/${GHUSER}/${GHREPO}/releases/latest/download/${GHFILE}"
