@@ -35,10 +35,7 @@ function _nredf_tool_krew() {
       return 0
     fi
 
-    # Completion is currently not supported
-    #if [[ "${NREDF_SHELL_NAME}" =~ ^(bash|zsh)$ ]]; then
-    #  [[ -f "${XDG_BIN_HOME}/${BINARY}" ]] && "${XDG_BIN_HOME}/${BINARY}" completion "${NREDF_SHELL_NAME}" > "${XDG_CONFIG_HOME}/completion/${NREDF_SHELL_NAME}/_${BINARY}"
-    #fi
+    _nredf_create_tool_completion "${BINARY}" "completion ${NREDF_SHELL_NAME}"
 
     echo -e "\033[1m    \U21B3 Updating krew plugins\033[0m"
     krew update 2>/dev/null
