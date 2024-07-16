@@ -17,11 +17,11 @@ function _nredf_tool_krew() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${NREDF_UNAME_LOWER}_${NREDF_ARCH}.tar.gz"
-  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} version | awk '/^GitTag/{print \$2}'"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} version 2>/dev/null | awk '/^GitTag/{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/" "./${FILENAME%.tar.gz}"
-    cp -f "${XDG_BIN_HOME}/${FILENAME%.tar.gz}" "${XDG_BIN_HOME}/${BINARY}"
+    mv -f "${XDG_BIN_HOME}/${FILENAME%.tar.gz}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
   if _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"; then
@@ -41,8 +41,8 @@ function _nredf_tool_krew() {
     #fi
 
     echo -e "\033[1m    \U21B3 Updating krew plugins\033[0m"
-    kubectl krew update 2>/dev/null
-    if kubectl krew upgrade 2>/dev/null; then
+    krew update 2>/dev/null
+    if krew upgrade 2>/dev/null; then
       _nredf_last_run "_krewplugin_upgrade" "true"
     fi
 
@@ -64,9 +64,9 @@ function _nredf_tool_krew() {
     KREW_PLUGINS+=("cert-manager")
 
     for KREW_PLUGIN in "${KREW_PLUGINS[@]}"; do
-      if ! kubectl krew list | command grep -q "${KREW_PLUGIN}"; then
+      if ! krew list | command grep -q "${KREW_PLUGIN}"; then
         echo -e "\033[1m    \U21B3 Installing krew plugin ${KREW_PLUGIN}\033[0m"
-        kubectl krew install "${KREW_PLUGIN}" 2>/dev/null
+        krew install "${KREW_PLUGIN}" 2>/dev/null
       fi
     done
   fi
