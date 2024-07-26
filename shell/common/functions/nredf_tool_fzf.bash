@@ -23,7 +23,7 @@ function _nredf_tool_fzf() {
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$1}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
-    tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/"
+    command tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/"
 
     #command curl ${NREDF_CURL_GITHUB_AUTH} -Lfso "${XDG_BIN_HOME}/fzf-tmux" "https://raw.githubusercontent.com/${GHUSER}/${GHREPO}/master/bin/fzf-tmux"
 

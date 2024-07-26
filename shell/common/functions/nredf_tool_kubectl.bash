@@ -17,7 +17,7 @@ function _nredf_tool_kubectl() {
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} version --output yaml --client | yq '.clientVersion.gitVersion'"
   local DOWNLOAD_CMD="command curl -Lfso \"${NREDF_DOWNLOADS}/${FILENAME}\" \"https://dl.k8s.io/release/${TAGVERSION}/bin/${NREDF_UNAME_LOWER}/${NREDF_ARCH}/${BINARY}\""
   local EXTRACT_CMD='
-    cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"
+    command cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
   _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"

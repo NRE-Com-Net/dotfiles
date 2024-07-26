@@ -19,7 +19,7 @@ function _nredf_tool_calico() {
   local VERSION_CMD="DATASTORE_TYPE=kubernetes KUBECONFIG=/dev/null ${XDG_BIN_HOME}/${BINARY} version | awk '/Client Version/{print \$3}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
-    cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"
+    command cp -f "${NREDF_DOWNLOADS}/${FILENAME}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
   _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"

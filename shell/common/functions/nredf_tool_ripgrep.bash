@@ -23,9 +23,9 @@ function _nredf_tool_ripgrep() {
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '/ripgrep/{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
-    tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/" && cp "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/${BINARY}" "${XDG_BIN_HOME}/"
-    cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/complete/_rg" "${XDG_CONFIG_HOME}/completion/zsh/_rg"
-    cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/complete/rg.bash" "${XDG_CONFIG_HOME}/completion/bash/rg.bash"
+    command tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/" && cp "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/${BINARY}" "${XDG_BIN_HOME}/"
+    command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/complete/_rg" "${XDG_CONFIG_HOME}/completion/zsh/_rg"
+    command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/complete/rg.bash" "${XDG_CONFIG_HOME}/completion/bash/rg.bash"
   '
 
   _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"

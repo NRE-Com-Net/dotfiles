@@ -21,12 +21,12 @@ function _nredf_tool_fd() {
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${TAGVERSION}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tar.gz"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '/fd/{print \$2}'"
-  local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
+  local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\"command "
   local EXTRACT_CMD='
-    tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"
-    cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/${BINARY}" "${XDG_BIN_HOME}/"
-    cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/autocomplete/_fd" "${XDG_CONFIG_HOME}/completion/zsh/_fd"
-    cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/autocomplete/fd.bash" "${XDG_CONFIG_HOME}/completion/bash/fd.bash"
+    command tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"
+    command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/${BINARY}" "${XDG_BIN_HOME}/"
+    command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/autocomplete/_fd" "${XDG_CONFIG_HOME}/completion/zsh/_fd"
+    command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.tar.gz}/autocomplete/fd.bash" "${XDG_CONFIG_HOME}/completion/bash/fd.bash"
   '
 
   _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"

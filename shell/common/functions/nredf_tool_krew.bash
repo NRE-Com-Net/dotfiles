@@ -20,8 +20,8 @@ function _nredf_tool_krew() {
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} version 2>/dev/null | awk '/^GitTag/{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
-    tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/" "./${FILENAME%.tar.gz}"
-    mv -f "${XDG_BIN_HOME}/${FILENAME%.tar.gz}" "${XDG_BIN_HOME}/${BINARY}"
+    command tar -xzf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${XDG_BIN_HOME}/" "./${FILENAME%.tar.gz}"
+    command mv -f "${XDG_BIN_HOME}/${FILENAME%.tar.gz}" "${XDG_BIN_HOME}/${BINARY}"
   '
 
   if _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"; then

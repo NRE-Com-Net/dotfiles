@@ -35,8 +35,8 @@ function _nredf_tool_btop() {
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} -v | awk '{sub(\",\",\"\"); print \$3}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
-    tar -xjf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"
-    cp -f "${NREDF_DOWNLOADS}/${BINARY}/bin/${BINARY}" "${XDG_BIN_HOME}/"
+    command tar -xjf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"
+    command cp -f "${NREDF_DOWNLOADS}/${BINARY}/bin/${BINARY}" "${XDG_BIN_HOME}/"
   '
 
   _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
