@@ -17,10 +17,10 @@ function _nredf_install_tools_default() {
   _nredf_tool_helix
   _nredf_tool_jq
   _nredf_tool_lazygit
-  _nredf_tool_lf
   _nredf_tool_lsd
   _nredf_tool_q
   _nredf_tool_ripgrep
+  _nredf_tool_yazi
   _nredf_tool_yq
   _nredf_tool_zellij
   [[ -f "${HOME}/.kube/config" ]] && _nredf_install_tools_k8s_ops
