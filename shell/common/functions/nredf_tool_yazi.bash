@@ -19,7 +19,7 @@ function _nredf_tool_yazi() {
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
-    command unzip -oq "${NREDF_DOWNLOADS}/${FILENAME}"
+    command unzip -oq "${NREDF_DOWNLOADS}/${FILENAME}" -d "${NREDF_DOWNLOADS}"
     command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.zip}/${BINARY}" "${XDG_BIN_HOME}/${BINARY}"
     command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.zip}/ya" "${XDG_BIN_HOME}/ya"
     command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.zip}/completions/yazi.bash" "${XDG_CONFIG_HOME}/completion/bash/"
