@@ -18,6 +18,7 @@ function _nredf_install_tools_default() {
   _nredf_tool_jq
   _nredf_tool_lazygit
   _nredf_tool_lsd
+  _nredf_tool_ouch
   _nredf_tool_q
   _nredf_tool_ripgrep
   _nredf_tool_yazi
