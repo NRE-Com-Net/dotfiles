@@ -35,7 +35,11 @@ function _nredf_tool_btop() {
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} -v | awk '{sub(\",\",\"\"); print \$3}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
-    command tar -xjf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"
+    if command -v ouch &> /dev/null; then
+      command ouch decompress -qy "${NREDF_DOWNLOADS}/${FILENAME}" -d "${NREDF_DOWNLOADS}/" 2>/dev/null
+    else
+      command tar -xjf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"
+    fi
     command cp -f "${NREDF_DOWNLOADS}/${BINARY}/bin/${BINARY}" "${XDG_BIN_HOME}/"
   '
 
