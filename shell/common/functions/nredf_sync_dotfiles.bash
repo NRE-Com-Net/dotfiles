@@ -12,9 +12,16 @@ function _nredf_sync_dotfiles() {
 
   _nredf_add_castles
 
+  # We will wait cause the could be something new
+  while ! _nredf_create_lock; do
+    sleep 1
+  done
+
   if _nredf_last_run; then
+    _nredf_remove_lock
     return 0
   fi
+
   echo -e '\033[1mChecking dotfiles\033[0m'
   homeshick --quiet check
   case ${?} in
@@ -45,6 +52,7 @@ function _nredf_sync_dotfiles() {
     fc-cache -f
   fi
   _nredf_last_run "" "true"
+  _nredf_remove_lock
 }
 
 function _nredf_install_homeshick() {

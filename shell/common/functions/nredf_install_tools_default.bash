@@ -3,26 +3,26 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 function _nredf_install_tools_default() {
+  if _nredf_last_run; then
+    return 0
+  elif ! _nredf_create_lock; then
+    return 0
+  fi
   echo -e "\033[1mLooking for fresh batteries\033[0m"
-  _nredf_tool_atuin
-  _nredf_tool_btop
-  _nredf_tool_ctop
-  _nredf_tool_diskus
-  [[ -f "${HOME}/.local/bin/drone" ]] && _nredf_tool_drone
-  _nredf_tool_duf
-  _nredf_tool_dust
-  _nredf_tool_fd
-  _nredf_tool_fzf
-  _nredf_tool_githubcli
-  _nredf_tool_helix
-  _nredf_tool_jq
-  _nredf_tool_lazygit
-  _nredf_tool_lsd
-  _nredf_tool_ouch
-  _nredf_tool_q
-  _nredf_tool_ripgrep
-  _nredf_tool_yazi
-  _nredf_tool_yq
-  _nredf_tool_zellij
-  [[ -f "${HOME}/.kube/config" ]] && _nredf_install_tools_k8s_ops
+  local BINARY=""
+
+  for TOOL in "${NREDF_DEFAULT_TOOLS[@]}"; do
+    eval "${TOOL}"
+  done
+
+  for FUNCTION in $(declare -f | awk '/^_nredf_tool_[a-z]+[ \t]/ {print $1}'); do
+    if ! [[ ${NREDF_DEFAULT_TOOLS[*]} =~ ${FUNCTION} ]]; then
+      BINARY="$(declare -f | sed -n "/^${FUNCTION}/,/^}/p" | sed -n 's/local BINARY="\([^"]*\)"/\1/p' | sed 's/[ \t]//g')"
+      if [[ -x "${HOME}/.local/bin/${BINARY}" ]]; then
+        eval "${FUNCTION}"
+      fi
+    fi
+  done
+  _nredf_last_run "" "true"
+  _nredf_remove_lock
 }
