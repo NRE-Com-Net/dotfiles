@@ -115,7 +115,6 @@ function _nredf_set_defaults() {
     fi
   fi
 
-  declare -ax NREDF_DEFAULT_TOOLS
   NREDF_DEFAULT_TOOLS[1]=_nredf_tool_btop
   NREDF_DEFAULT_TOOLS[2]=_nredf_tool_atuin
   NREDF_DEFAULT_TOOLS[3]=_nredf_tool_ctop

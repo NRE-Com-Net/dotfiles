@@ -2,6 +2,8 @@
 #
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
+declare -a NREDF_DEFAULT_TOOLS
+
 for NREDF_FUNCTIONS in "${NREDF_DOT_PATH}/shell/common/functions/"*; do
   source "${NREDF_FUNCTIONS}"
 done
@@ -10,6 +12,12 @@ _nredf_get_sys_info
 _nredf_set_defaults
 _nredf_backup_rc
 [[ -z ${SUDO_COMMAND} ]] && _nredf_sync_dotfiles
+(bash "${NREDF_DOT_PATH}/shell/common/nredf_config.bash")
+if [[ -e "${NREDF_CONFIG}/config.bash" ]]; then
+  unset NREDF_CONFIGS
+  declare -A NREDF_CONFIGS
+  source "${NREDF_CONFIG}/config.bash"
+fi
 _nredf_set_ssh_agent
 _nredf_set_local
 [[ -z ${SUDO_COMMAND} ]] && _nredf_cleanup_dotfiles

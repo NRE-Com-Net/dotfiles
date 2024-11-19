@@ -9,6 +9,11 @@ function _nredf_remote_multiplexer() {
   elif command -pv hostnamectl &>/dev/null; then
     HOSTNAME=$(hostnamectl hostname)
   fi
+
+  if ! ${NREDF_CONFIGS["Multiplexer"]}; then
+    return 0
+  fi
+
   if [[ "${TERM_PROGRAM}" != "vscode" ]]; then
     if [[ -n "${SSH_TTY}" || -n "${WSL_DISTRO_NAME}" ]] && command -v zellij &>/dev/null; then
       if [[ -z "${ZELLIJ}" ]]; then
