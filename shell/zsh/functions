@@ -22,15 +22,21 @@ function _nredf_zplug() {
         zplug install
       fi
 
+      while ! _nredf_create_lock; do
+        sleep 1
+      done
       if ! _nredf_last_run; then
         zplug update
         _nredf_last_run "" "true"
+        _nredf_remove_lock
+      else
+        _nredf_remove_lock
       fi
     fi
 
     # source plugins and add commands to the PATH
     zplug load
-  else
+  elif _nredf_create_lock; then
     echo -e '\033[1mSetup zplug\033[0m'
     [[ -d "${ZPLUG_HOME}" ]] && rm -rf "${ZPLUG_HOME}"
     git clone https://github.com/NemesisRE/zplug "${ZPLUG_HOME}"
@@ -40,5 +46,10 @@ function _nredf_zplug() {
     zplug install
     zplug load
     _nredf_last_run "" "true"
+    _nredf_remove_lock
+  else
+    while ! _nredf_create_lock; do
+      sleep 1
+    done
   fi
 }
