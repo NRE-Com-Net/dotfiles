@@ -30,6 +30,7 @@ function _nredf_sync_dotfiles() {
       if homeshick --batch --force pull; then
         echo -e '\033[1m  Linking dotfiles\033[0m'
         homeshick --batch --force link
+        _nredf_remove_lock
         exec ${SHELL}
       else
         echo -e '\033[1m  Linking dotfiles\033[0m'
