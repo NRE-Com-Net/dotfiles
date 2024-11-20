@@ -11,12 +11,10 @@ function _nredf_install_tools_default() {
   echo -e "\033[1mLooking for fresh batteries\033[0m"
   local BINARY=""
 
-  for TOOL in "${NREDF_DEFAULT_TOOLS[@]}"; do
-    eval "${TOOL}"
-  done
-
   for FUNCTION in $(declare -f | awk '/^_nredf_tool_[a-z]+[ \t]/ {print $1}'); do
-    if ! [[ ${NREDF_DEFAULT_TOOLS[*]} =~ ${FUNCTION} ]]; then
+    if [[ ${NREDF_CONFIGS["${FUNCTION}"]} == "true" ]]; then
+      eval "${FUNCTION}"
+    elif [[ ${NREDF_CONFIGS["${FUNCTION}"]} == "false" ]]; then
       BINARY="$(declare -f | sed -n "/^${FUNCTION}/,/^}/p" | sed -n 's/local BINARY="\([^"]*\)"/\1/p' | sed 's/[ \t]//g')"
       if [[ -x "${HOME}/.local/bin/${BINARY}" ]]; then
         eval "${FUNCTION}"

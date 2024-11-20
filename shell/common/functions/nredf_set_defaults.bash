@@ -115,41 +115,4 @@ function _nredf_set_defaults() {
     fi
   fi
 
-  NREDF_DEFAULT_TOOLS[1]=_nredf_tool_btop
-  NREDF_DEFAULT_TOOLS[2]=_nredf_tool_atuin
-  NREDF_DEFAULT_TOOLS[3]=_nredf_tool_ctop
-  NREDF_DEFAULT_TOOLS[4]=_nredf_tool_diskus
-  NREDF_DEFAULT_TOOLS[5]=_nredf_tool_duf
-  NREDF_DEFAULT_TOOLS[6]=_nredf_tool_dust
-  NREDF_DEFAULT_TOOLS[7]=_nredf_tool_fd
-  NREDF_DEFAULT_TOOLS[8]=_nredf_tool_fzf
-  NREDF_DEFAULT_TOOLS[9]=_nredf_tool_githubcli
-  NREDF_DEFAULT_TOOLS[10]=_nredf_tool_helix
-  NREDF_DEFAULT_TOOLS[11]=_nredf_tool_jq
-  NREDF_DEFAULT_TOOLS[12]=_nredf_tool_lazygit
-  NREDF_DEFAULT_TOOLS[13]=_nredf_tool_lsd
-  NREDF_DEFAULT_TOOLS[14]=_nredf_tool_ouch
-  NREDF_DEFAULT_TOOLS[15]=_nredf_tool_q
-  NREDF_DEFAULT_TOOLS[16]=_nredf_tool_ripgrep
-  NREDF_DEFAULT_TOOLS[17]=_nredf_tool_yazi
-  NREDF_DEFAULT_TOOLS[18]=_nredf_tool_yq
-  NREDF_DEFAULT_TOOLS[19]=_nredf_tool_zellij
-
-  if [[ -f "${HOME}/.kube/config" ]]; then
-    # Default tools for k8s ops
-    NREDF_DEFAULT_TOOLS[20]=_nredf_tool_kubectl
-    NREDF_DEFAULT_TOOLS[21]=_nredf_tool_krew
-    NREDF_DEFAULT_TOOLS[22]=_nredf_tool_kubeadm
-    NREDF_DEFAULT_TOOLS[23]=_nredf_tool_kubeseal
-    NREDF_DEFAULT_TOOLS[24]=_nredf_tool_fluxctl
-    NREDF_DEFAULT_TOOLS[25]=_nredf_tool_flux
-    NREDF_DEFAULT_TOOLS[26]=_nredf_tool_helm
-    NREDF_DEFAULT_TOOLS[27]=_nredf_tool_oras
-    NREDF_DEFAULT_TOOLS[28]=_nredf_tool_k9s
-    NREDF_DEFAULT_TOOLS[29]=_nredf_tool_velero
-    NREDF_DEFAULT_TOOLS[30]=_nredf_tool_kustomize
-    NREDF_DEFAULT_TOOLS[31]=_nredf_tool_stern
-    NREDF_DEFAULT_TOOLS[32]=_nredf_tool_calico
-    NREDF_DEFAULT_TOOLS[33]=_nredf_tool_kubent
-  fi
 }

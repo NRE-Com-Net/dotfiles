@@ -3,7 +3,7 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 declare -A NREDF_CONFIGS
-source "${NREDF_DOT_PATH}/shell/common/default_config.bash"
+source "${NREDF_DOT_PATH}/shell/common/config/default_config.bash"
 if [[ -e "${NREDF_CONFIG}/config.bash" ]]; then
   source "${NREDF_CONFIG}/config.bash"
 fi

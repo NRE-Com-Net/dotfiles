@@ -12,7 +12,7 @@ _nredf_get_sys_info
 _nredf_set_defaults
 _nredf_backup_rc
 [[ -z ${SUDO_COMMAND} ]] && _nredf_sync_dotfiles
-(bash "${NREDF_DOT_PATH}/shell/common/nredf_config.bash")
+(bash "${NREDF_DOT_PATH}/shell/common/scripts/nredf_config.bash")
 if [[ -e "${NREDF_CONFIG}/config.bash" ]]; then
   unset NREDF_CONFIGS
   declare -A NREDF_CONFIGS
