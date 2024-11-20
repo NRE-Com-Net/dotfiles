@@ -13,3 +13,4 @@ for CONFIG in "${!NREDF_CONFIGS[@]}"; do
   CONFIG_VALUE="${NREDF_CONFIGS[${CONFIG}]}"
   echo "NREDF_CONFIGS[\"$CONFIG_KEY\"]=\"$CONFIG_VALUE\"" >> "${NREDF_CONFIG}/config.bash"
 done
+sort -o "${NREDF_CONFIG}/config.bash"{,}
