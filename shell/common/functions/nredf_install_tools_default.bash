@@ -12,9 +12,9 @@ function _nredf_install_tools_default() {
   local BINARY=""
 
   for FUNCTION in $(declare -f | awk '/^_nredf_tool_[a-z]+[ \t]/ {print $1}'); do
-    if [[ ${NREDF_CONFIGS["${FUNCTION}"]} == "true" ]]; then
+    if [[ "${NREDF_CONFIGS["${FUNCTION}"]}" == "true" ]]; then
       eval "${FUNCTION}"
-    elif [[ ${NREDF_CONFIGS["${FUNCTION}"]} == "false" ]]; then
+    elif [[ "${NREDF_CONFIGS["${FUNCTION}"]}" == "false" ]]; then
       BINARY="$(declare -f | sed -n "/^${FUNCTION}/,/^}/p" | sed -n 's/local BINARY="\([^"]*\)"/\1/p' | sed 's/[ \t]//g')"
       if [[ -x "${HOME}/.local/bin/${BINARY}" ]]; then
         eval "${FUNCTION}"
