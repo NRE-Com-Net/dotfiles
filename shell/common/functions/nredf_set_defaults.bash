@@ -54,6 +54,11 @@ function _nredf_set_defaults() {
     eval "$(pyenv init -)"
   fi
 
+  # Load krew if you are using it
+  if [[ -f "${XDG_BIN_HOME}/krew" ]]; then
+    export PATH="${KREW_ROOT:-${HOME}/.krew}/bin:${PATH}"
+  fi
+
   # FZF Defaults
   export FZF_DEFAULT_OPTS='--bind tab:down --bind btab:up --cycle --ansi'
   if command -v fd &>/dev/null; then
@@ -114,5 +119,4 @@ function _nredf_set_defaults() {
       export NREDF_CURL_GITHUB_AUTH="-u ${NREDF_GITHUB_USERNAME}:${NREDF_GITHUB_TOKEN}"
     fi
   fi
-
 }

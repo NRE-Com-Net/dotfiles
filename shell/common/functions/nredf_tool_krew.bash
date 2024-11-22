@@ -30,7 +30,6 @@ function _nredf_tool_krew() {
 
   if [[ -f "${XDG_BIN_HOME}/${BINARY}" ]]; then
     export KREW_PLUGINS=()
-    export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
     if _nredf_last_run "_krewplugin_upgrade"; then
       return 0
     fi
