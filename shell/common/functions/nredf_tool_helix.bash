@@ -16,7 +16,7 @@ function _nredf_tool_helix() {
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${GHREPO}-${VERSION}-${NREDF_UNAMEM}-${NREDF_OS}.tar.xz"
-  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$2}'"
+  local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$2}' | awk -F. '{if (length(\$2) == 1) {print \$1\".0\"\$2} else {print \$0}}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
     command tar -xJf "${NREDF_DOWNLOADS}/${FILENAME}" -C "${NREDF_DOWNLOADS}/"
