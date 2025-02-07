@@ -31,12 +31,6 @@ fi
 echo -e "\033[1mCustomizing Shell\033[0m"
 source "${NREDF_RC_PATH}/rc"
 
-if [[ -d "${ASDF_DIR}" ]]; then
-  source "${ASDF_DIR}/asdf.sh"
-  source "${ASDF_DIR}/completions/asdf.bash"
-  fpath=("${ASDF_DIR}/completions ${fpath[@]}")
-fi
-
 _nredf_os_specific
 _nredf_set_local true
 eval "$(atuin init "${NREDF_SHELL_NAME}")"

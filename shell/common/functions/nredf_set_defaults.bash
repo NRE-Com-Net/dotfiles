@@ -101,10 +101,11 @@ function _nredf_set_defaults() {
   export _Z_DATA="${XDG_DATA_HOME}/z"
 
   # asdf config
-  export ASDF_DIR="${HOME}/.homesick/repos/asdf"
   export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
   export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdf/asdfrc"
   export ADSF_DEFAULT_TOOL_VERSIONS_FILENAME="${XDG_CONFIG_HOME}/asdf/tool-versions"
+  export PATH="${ASDF_DATA_DIR}/shims:${PATH}"
+
 
   # make less more friendly for non-text input files, see lesspipe(1)
   if [ -x /usr/bin/lesspipe ]; then eval "$(SHELL=/bin/sh lesspipe)"; fi
