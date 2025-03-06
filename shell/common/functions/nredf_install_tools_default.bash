@@ -11,7 +11,7 @@ function _nredf_install_tools_default() {
   echo -e "\033[1mLooking for fresh batteries\033[0m"
   local BINARY=""
 
-  for FUNCTION in $(declare -f | awk '/^_nredf_tool_[a-z]+[ \t]/ {print $1}'); do
+  for FUNCTION in $(declare -f | awk '/^_nredf_tool_[a-z0-9]+[ \t]/ {print $1}'); do
     if [[ "${NREDF_CONFIGS["${FUNCTION}"]}" == "true" ]]; then
       eval "${FUNCTION}"
     elif [[ "${NREDF_CONFIGS["${FUNCTION}"]}" == "false" ]]; then
