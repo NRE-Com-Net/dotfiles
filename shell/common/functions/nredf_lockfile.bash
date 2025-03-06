@@ -21,6 +21,9 @@ function _nredf_create_lock() {
 
   if flock -x -w 0 ${FD}; then
     return 0
+  elif [[ $(find "${LOCK_FILE}" -mtime +5 -print) ]]; then
+    _nredf_remove_lock "${CURRENT_FUNCTION}"
+    return 0
   else
     return 1
   fi
