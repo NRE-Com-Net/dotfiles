@@ -33,6 +33,8 @@ function _nredf_tool_yazi() {
     command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.zip}/completions/ya.bash" "${XDG_CONFIG_HOME}/completion/bash/"
     command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.zip}/completions/_yazi" "${XDG_CONFIG_HOME}/completion/zsh/"
     command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.zip}/completions/_ya" "${XDG_CONFIG_HOME}/completion/zsh/"
+
+    ${XDG_BIN_HOME}/ya pgk install
   '
 
   _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
