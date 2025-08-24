@@ -19,7 +19,7 @@ function _nredf_tool_lazygit() {
   local BINARY="lazygit"
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
-  local FILENAME="${BINARY}_${VERSION}_${NREDF_UNAME}_${NREDF_UNAMEM}.tar.gz"
+  local FILENAME="${BINARY}_${VERSION}_${NREDF_UNAME_LOWER}_${NREDF_UNAMEM}.tar.gz"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} -v | awk '{print \$6}' | awk -F= '{gsub(/,/,\"\"); print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
