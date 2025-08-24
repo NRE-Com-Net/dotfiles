@@ -18,7 +18,6 @@ zplug "plugins/extract",   from:oh-my-zsh
 zplug "plugins/colored-man-pages",   from:oh-my-zsh
 zplug "plugins/colorize",   from:oh-my-zsh
 zplug "plugins/cp",   from:oh-my-zsh
-zplug "plugins/gpg-agent",   from:oh-my-zsh
 zplug "plugins/npm",   from:oh-my-zsh
 zplug "plugins/rvm",   from:oh-my-zsh
 zplug "plugins/pyenv",   from:oh-my-zsh
