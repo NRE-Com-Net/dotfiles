@@ -49,7 +49,7 @@ function _nredf_set_ssh_agent_wsl() {
       rm -f "${SOCAT_PID_FILE}"
     fi
     # Start new socat process, then record its PID reliably
-    ( setsid socat UNIX-LISTEN:"${SSH_AUTH_SOCK}",fork EXEC:"${NPIPERELAY} -ei -s //./pipe/openssh-ssh-agent",nofork >/dev/null 2>&1 & )
+    ( setsid socat UNIX-LISTEN:"${SSH_AUTH_SOCK}",fork EXEC:"${NPIPERELAY} -ei -s //./pipe/openssh-ssh-agent",nofork &>/dev/null & )
     # Give socat a brief moment to start, then capture the pid
     sleep 0.1
     new_pid=$(pgrep -f "socat UNIX-LISTEN:${SSH_AUTH_SOCK}" | head -n1)
@@ -59,6 +59,41 @@ function _nredf_set_ssh_agent_wsl() {
   else
     printf "Warning: 'setsid' or 'socat' not found; SSH agent bridging not started.\n"
   fi
+}
+
+function _nredf_set_ssh_agent_bitwarden() {
+  local os
+  os="$(uname -s)"
+  local candidates=()
+
+  if [[ "${os}" == "Darwin" ]]; then
+    candidates+=(
+      "${HOME}/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+      "${HOME}/.bitwarden-ssh-agent.sock"
+    )
+  else
+    candidates+=(
+      "${HOME}/.bitwarden-ssh-agent.sock"
+      "${HOME}/snap/bitwarden/current/.bitwarden-ssh-agent.sock"
+      "${HOME}/.var/app/com.bitwarden.desktop/data/.bitwarden-ssh-agent.sock"
+    )
+  fi
+
+  for sock in "${candidates[@]}"; do
+    if [[ -S "${sock}" ]]; then
+      if command -v ssh-add &>/dev/null; then
+        SSH_AUTH_SOCK="${sock}" ssh-add -l &>/dev/null
+        local rc=$?
+        if [[ $rc -eq 0 || $rc -eq 1 ]]; then
+          export SSH_AUTH_SOCK="${sock}"
+          return 0
+        fi
+      else
+        export SSH_AUTH_SOCK="${sock}"
+        return 0
+      fi
+    fi
+  done
 }
 
 function _nredf_set_ssh_agent_gpg() {
@@ -74,9 +109,35 @@ function _nredf_set_ssh_agent_gpg() {
 }
 
 function _nredf_set_ssh_agent() {
-  if [[ -n "${WSL_DISTRO_NAME}" ]] || [[ -n "${WSL_INTEROP}" ]]; then
+  # Do not override a forwarded SSH agent
+  if [[ -n "${SSH_CONNECTION:-}" ]]; then
+    return 0
+  fi
+
+  # Keep current agent if it is working
+  if [[ -n "${SSH_AUTH_SOCK:-}" ]] && command -v ssh-add &>/dev/null; then
+    if ssh-add -l &>/dev/null; then
+      return 0
+    fi
+  fi
+
+  if [[ "${NREDF_CONFIGS["AGENT_PIPE"]}" == "true" ]] && [[ -n "${WSL_DISTRO_NAME}" || -n "${WSL_INTEROP}" ]]; then
     _nredf_set_ssh_agent_wsl
-  else
+  elif [[ "${NREDF_CONFIGS["AGENT_GPG"]}" == "true" ]]; then
     _nredf_set_ssh_agent_gpg
+  elif [[ "${NREDF_CONFIGS["AGENT_BITWARDEN"]}" == "true" ]]; then
+    _nredf_set_ssh_agent_bitwarden
+  else
+    if command -v ssh-add &>/dev/null; then
+      if ssh-add -l &>/dev/null; then
+        return 0
+      fi
+    fi
+    if command -v ssh-agent &>/dev/null; then
+      unset SSH_AGENT_PID
+      eval "$(ssh-agent -s)" >/dev/null
+    else
+      printf "Warning: 'ssh-agent' not found; no SSH agent could be started.\n"
+    fi
   fi
 }
