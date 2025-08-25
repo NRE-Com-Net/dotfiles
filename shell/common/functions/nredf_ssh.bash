@@ -133,7 +133,7 @@ function _nredf_sshpass_totp() {
     '
   )
 
-  if [ "$(command -v bw)" ]; then
+  if [[ "${NREDF_CONFIGS["SSH_TOTP_PROVIDER"]}" == "bitwarden" ]]; then
     item_totp=$(_nredf_sshpass_bitwarden_totp "$totp_itemid")
   fi
 
@@ -147,6 +147,14 @@ function _nredf_sshpass_totp() {
 function _nredf_sshpass_bitwarden_totp() {
   local itemid="$1"
   local totp
+
+  if ! command -v bw; then
+    echo "Bitwarden CLI (bw) is not installed, trying to install"
+    _nredf_tool_bw
+    if ! command -v bw; then
+      return 1
+    fi
+  fi
 
   if ! bw login --check &>/dev/null; then
     BW_SESSION=$(bw login --raw)
