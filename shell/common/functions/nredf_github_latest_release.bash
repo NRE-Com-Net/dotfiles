@@ -8,11 +8,11 @@ function _nredf_github_latest_release() {
   local GHREPO=${2}
   local TAGREGEX=${3:-""}
   local PREFIX=${4:-""}
-  local CACHEFILE="${NREDF_GHCACHE}/nredf_github_latest_release-${GHUSER}-${GHREPO}"
+  local CACHEFILE="${NREDF_GHCACHE}/nredf_github_latest_release-${GHUSER}-${GHREPO}-${TAGREGEX}"
 
   if [[ ! -s "${CACHEFILE}" || $(date -r "${CACHEFILE}" +%s) -le $(($(date +%s) - 3600 )) ]]; then
     if command -v gh &>/dev/null && gh auth status &>/dev/null; then
-      PAGER="" gh release list --exclude-drafts --exclude-pre-releases -R "${GHUSER}/${GHREPO}" --json tagName,isLatest --jq '.[] | select(.isLatest).tagName' > "${CACHEFILE}"
+      PAGER="" gh release list --exclude-drafts --exclude-pre-releases -R "${GHUSER}/${GHREPO}" --json tagName,isLatest --jq 'first(.[] | select(.tagName | test("'${TAGREGEX}'")) | (.tagName | sub("'^${PREFIX}'"; "")))' > "${CACHEFILE}"
     else
       if command -v jq &>/dev/null; then
         # shellcheck disable=SC2086
