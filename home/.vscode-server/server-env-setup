@@ -2,58 +2,17 @@
 
 # Only proceed when running under WSL; otherwise, exit/return quietly
 if [[ -z "${WSL_DISTRO_NAME:-}" ]] && ! grep -qiE "(microsoft|wsl)" /proc/sys/kernel/osrelease 2>/dev/null; then
-  # Keep current agent if it is working
-  if [[ -n "${SSH_AUTH_SOCK:-}" ]] && command -v ssh-add &>/dev/null; then
-    if ssh-add -l &>/dev/null; then
-      return 0
+  NREDF_DOT_PATH="${HOME}/.homesick/repos/dotfiles"
+  NREDF_CONFIG="${HOME}/.config/nredf"
+  if [[ -e "${NREDF_DOT_PATH}/shell/common/functions/nredf_set_ssh_agent.bash" ]]; then
+    source "${NREDF_DOT_PATH}/shell/common/scripts/nredf_config.bash"
+    if [[ -e "${NREDF_CONFIG}/config.bash" ]]; then
+      unset NREDF_CONFIGS
+      declare -A NREDF_CONFIGS
+      source "${NREDF_CONFIG}/config.bash"
     fi
-  fi
+    source "${NREDF_DOT_PATH}/shell/common/functions/nredf_set_ssh_agent.bash"
 
-  if [[ ! -d "${HOME}/.ssh" ]]; then
-    mkdir -p "${HOME}/.ssh"
-  fi
-  chmod 700 "${HOME}/.ssh"
-  export SSH_AUTH_SOCK="${HOME}/.ssh/auth_sock"
-  if ssh-add -l &>/dev/null; then
-    return 0
-  else
-    rm -f "${SSH_AUTH_SOCK}"
-  fi
-
-  WINDOWS_USER=$(whoami.exe | sed 's/.*\\//' | tr -d '\r\n')
-
-  # Construct the npiperelay path
-  NPIPERELAY_DEFAULT_PATH="/mnt/c/Users/${WINDOWS_USER}/AppData/Local/Microsoft/WinGet/Packages/albertony.npiperelay_Microsoft.Winget.Source_8wekyb3d8bbwe/npiperelay.exe"
-  NPIPERELAY="${NPIPERELAY_PATH:-$NPIPERELAY_DEFAULT_PATH}"
-
-  # Try to auto-detect npiperelay.exe via Windows 'where' and convert to WSL path if default is not executable
-  if [[ ! -x "${NPIPERELAY}" ]] && command -v where.exe &>/dev/null && command -v wslpath &>/dev/null; then
-    win_npiperelay=$(cmd.exe /c "where.exe npiperelay.exe" 2>/dev/null | tr -d '\r' | head -n1)
-    if [[ -n "${win_npiperelay}" ]]; then
-      npiperelay_unix=$(wslpath -u "${win_npiperelay}" 2>/dev/null)
-      if [[ -n "${npiperelay_unix}" ]]; then
-        NPIPERELAY="${NPIPERELAY_PATH:-$npiperelay_unix}"
-      fi
-    fi
-  fi
-
-  if command -v setsid &>/dev/null && command -v socat &>/dev/null; then
-    # Kill previous socat process if PID file exists
-    SOCAT_PID_FILE="${HOME}/.ssh/socat_npiperelay.pid"
-    if [[ -f "${SOCAT_PID_FILE}" ]]; then
-      old_pid=$(<"${SOCAT_PID_FILE}")
-      if kill -0 "${old_pid}" &>/dev/null; then
-        kill "${old_pid}" &>/dev/null
-      fi
-      rm -f "${SOCAT_PID_FILE}"
-    fi
-    # Start new socat process, then record its PID reliably
-    ( setsid socat UNIX-LISTEN:"${SSH_AUTH_SOCK}",fork EXEC:"${NPIPERELAY} -ei -s //./pipe/openssh-ssh-agent",nofork &>/dev/null & )
-    # Give socat a brief moment to start, then capture the pid
-    sleep 0.1
-    new_pid=$(pgrep -f "socat UNIX-LISTEN:${SSH_AUTH_SOCK}" | head -n1)
-    if [[ -n "${new_pid}" ]]; then
-      echo "${new_pid}" > "${SOCAT_PID_FILE}"
-    fi
+    nredf_set_ssh_agent
   fi
 fi
