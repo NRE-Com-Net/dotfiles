@@ -3,14 +3,6 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 function _nredf_set_ssh_agent_wsl() {
-  # Ensure socket directory exists
-  if [[ ! -d "${HOME}/.ssh" ]]; then
-    mkdir -p "${HOME}/.ssh"
-  fi
-  chmod 700 "${HOME}/.ssh"
-  export SSH_AUTH_SOCK="${HOME}/.ssh/auth_sock"
-  rm -f "${SSH_AUTH_SOCK}"
-
   # Get Windows username
   if ! command -v whoami.exe &>/dev/null; then
     printf "Error: whoami.exe not found in PATH. Please ensure it is available.\n"
@@ -121,6 +113,14 @@ function _nredf_set_ssh_agent() {
     fi
   fi
 
+  # Ensure socket directory exists
+  if [[ ! -d "${HOME}/.ssh" ]]; then
+    mkdir -p "${HOME}/.ssh"
+  fi
+  chmod 700 "${HOME}/.ssh"
+  export SSH_AUTH_SOCK="${HOME}/.ssh/auth_sock"
+  rm -f "${SSH_AUTH_SOCK}"
+
   if [[ "${NREDF_CONFIGS["AGENT_PIPE"]}" == "true" ]] && [[ -n "${WSL_DISTRO_NAME}" || -n "${WSL_INTEROP}" ]]; then
     _nredf_set_ssh_agent_wsl
   elif [[ "${NREDF_CONFIGS["AGENT_GPG"]}" == "true" ]]; then
@@ -135,7 +135,7 @@ function _nredf_set_ssh_agent() {
     fi
     if command -v ssh-agent &>/dev/null; then
       unset SSH_AGENT_PID
-      eval "$(ssh-agent -s)" >/dev/null
+      eval "$(ssh-agent -s -a "${SSH_AUTH_SOCK}")" >/dev/null
     else
       printf "Warning: 'ssh-agent' not found; no SSH agent could be started.\n"
     fi
