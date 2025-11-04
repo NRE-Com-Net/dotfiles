@@ -108,7 +108,9 @@ function _nredf_set_ssh_agent() {
 
   # Keep current agent if it is working
   if [[ -n "${SSH_AUTH_SOCK:-}" ]] && [[ -S "${SSH_AUTH_SOCK}" ]] && command -v ssh-add &>/dev/null; then
-    if ssh-add -l &>/dev/null; then
+    ssh-add -l &>/dev/null
+    local exit_code=$?
+    if [[ ${exit_code} -eq 0 ]] || [[ ${exit_code} -eq 1 ]]; then
       return 0
     fi
   fi
@@ -119,13 +121,20 @@ function _nredf_set_ssh_agent() {
     chmod 700 "${HOME}/.ssh"
   fi
 
-  # Remove old unused socket
+  # Check if socket exists and is working
   local auth_sock="${HOME}/.ssh/auth_sock"
   if [[ -S "${auth_sock}" ]]; then
-    if ! SSH_AUTH_SOCK="${auth_sock}" ssh-add -l &>/dev/null; then
-      rm -f "${auth_sock}"
+    SSH_AUTH_SOCK="${auth_sock}" ssh-add -l &>/dev/null
+    local exit_code=$?
+    if [[ $exit_code -eq 0 || $exit_code -eq 1 ]]; then
+      # Socket exists and agent is responding, use it
+      export SSH_AUTH_SOCK="${auth_sock}"
+      return 0
     fi
   fi
+
+  # Remove stale socket before starting new agent
+  rm -f "${auth_sock}"
 
   if [[ "${NREDF_CONFIGS["AGENT_PIPE"]}" == "true" ]] && [[ -n "${WSL_DISTRO_NAME}" || -n "${WSL_INTEROP}" ]]; then
     export SSH_AUTH_SOCK="${auth_sock}"
@@ -150,7 +159,10 @@ function _nredf_set_ssh_agent() {
 
   # Verify the agent is actually working
   if [[ -S "${SSH_AUTH_SOCK}" ]] && command -v ssh-add &>/dev/null; then
-    if ! ssh-add -l &>/dev/null; then
+    # Check if agent is responding (accept both 0 and 1 as valid)
+    ssh-add -l &>/dev/null
+    local exit_code=$?
+    if [[ ${exit_code} -gt 1 ]]; then
       printf "Warning: SSH agent socket exists but agent is not responding\n" >&2
       return 1
     fi
