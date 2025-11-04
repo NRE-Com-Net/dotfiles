@@ -107,7 +107,7 @@ function _nredf_set_ssh_agent() {
   fi
 
   # Keep current agent if it is working
-  if [[ -n "${SSH_AUTH_SOCK:-}" ]] && command -v ssh-add &>/dev/null; then
+  if [[ -n "${SSH_AUTH_SOCK:-}" ]] && [[ -S "${SSH_AUTH_SOCK}" ]] && command -v ssh-add &>/dev/null; then
     if ssh-add -l &>/dev/null; then
       return 0
     fi
@@ -116,28 +116,43 @@ function _nredf_set_ssh_agent() {
   # Ensure socket directory exists
   if [[ ! -d "${HOME}/.ssh" ]]; then
     mkdir -p "${HOME}/.ssh"
+    chmod 700 "${HOME}/.ssh"
   fi
-  chmod 700 "${HOME}/.ssh"
-  export SSH_AUTH_SOCK="${HOME}/.ssh/auth_sock"
-  rm -f "${SSH_AUTH_SOCK}"
+
+  # Remove old unused socket
+  local auth_sock="${HOME}/.ssh/auth_sock"
+  if [[ -S "${auth_sock}" ]]; then
+    if ! SSH_AUTH_SOCK="${auth_sock}" ssh-add -l &>/dev/null; then
+      rm -f "${auth_sock}"
+    fi
+  fi
 
   if [[ "${NREDF_CONFIGS["AGENT_PIPE"]}" == "true" ]] && [[ -n "${WSL_DISTRO_NAME}" || -n "${WSL_INTEROP}" ]]; then
-    _nredf_set_ssh_agent_wsl
+    export SSH_AUTH_SOCK="${auth_sock}"
+    if ! _nredf_set_ssh_agent_wsl; then
+      printf "Error: Failed to set up WSL SSH agent bridge\n" >&2
+      return 1
+    fi
   elif [[ "${NREDF_CONFIGS["AGENT_GPG"]}" == "true" ]]; then
     _nredf_set_ssh_agent_gpg
   elif [[ "${NREDF_CONFIGS["AGENT_BITWARDEN"]}" == "true" ]]; then
     _nredf_set_ssh_agent_bitwarden
   else
-    if command -v ssh-add &>/dev/null; then
-      if ssh-add -l &>/dev/null; then
-        return 0
-      fi
-    fi
+    export SSH_AUTH_SOCK="${auth_sock}"
     if command -v ssh-agent &>/dev/null; then
       unset SSH_AGENT_PID
       eval "$(ssh-agent -s -a "${SSH_AUTH_SOCK}")" >/dev/null
     else
-      printf "Warning: 'ssh-agent' not found; no SSH agent could be started.\n"
+      printf "Warning: 'ssh-agent' not found; no SSH agent could be started.\n" >&2
+      return 1
+    fi
+  fi
+
+  # Verify the agent is actually working
+  if [[ -S "${SSH_AUTH_SOCK}" ]] && command -v ssh-add &>/dev/null; then
+    if ! ssh-add -l &>/dev/null; then
+      printf "Warning: SSH agent socket exists but agent is not responding\n" >&2
+      return 1
     fi
   fi
 }
