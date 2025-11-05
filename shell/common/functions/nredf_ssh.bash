@@ -140,7 +140,9 @@ function _nredf_sshpass_totp() {
   if [[ -z "${item_totp}" ]]; then
     ssh "${@}"
   else
-    sshpass -p "${item_totp}" ssh "${@}"
+    # Unset SSH_ASKPASS to prevent GUI password prompts from interfering with sshpass
+    # sshpass needs to handle password input directly via stdin/controlling terminal
+    env SSH_ASKPASS="" SSH_ASKPASS_REQUIRE="" DISPLAY="" sshpass -p "${item_totp}" ssh "${@}"
   fi
 }
 
