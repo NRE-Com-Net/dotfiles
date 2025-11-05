@@ -162,7 +162,13 @@ function _nredf_set_ssh_agent() {
     # Check if agent is responding (accept both 0 and 1 as valid)
     ssh-add -l &>/dev/null
     local exit_code=$?
-    if [[ ${exit_code} -gt 1 ]]; then
+
+    if [[ ${exit_code} -eq 0 ]]; then
+      return 0
+    elif [[ ${exit_code} -eq 1 ]]; then
+      echo -e "\033[1;33mAdd your SSH key(s) to the agent with 'ssh-add'\033[0m"
+      return 0
+    elif [[ ${exit_code} -gt 1 ]]; then
       printf "Warning: SSH agent socket exists but agent is not responding\n" >&2
       return 1
     fi
