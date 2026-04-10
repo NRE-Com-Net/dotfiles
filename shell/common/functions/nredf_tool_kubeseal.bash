@@ -13,7 +13,7 @@ function _nredf_tool_kubeseal() {
   local GHUSER="bitnami-labs"
   local GHREPO="sealed-secrets"
   local BINARY="kubeseal"
-  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}" "v")}"
+  local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}" "^v")}"
   local VERSION="${TAGVERSION#v}"
   local FILENAME="${BINARY}-${VERSION}-${NREDF_UNAME_LOWER}-${NREDF_ARCH}.tar.gz"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$3}'"

@@ -10,19 +10,10 @@ function _nredf_tool_btop() {
     FORCE_INSTALL=true
   fi
 
-  local FILENAME_SUFFIX
   case ${NREDF_OS} in
     macos)
-      # Not ready yet
+      # No MacOs or BSD binaries provided for the moment.
       return 0
-      # shellcheck disable=SC2317
-      FILENAME_SUFFIX=${NREDF_OS_RELEASE:-bigsur}
-      ;;
-    windows)
-      return 0
-      ;;
-    linux)
-      FILENAME_SUFFIX=${NREDF_LIBC}
       ;;
   esac
 
@@ -31,7 +22,7 @@ function _nredf_tool_btop() {
   local BINARY="btop"
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
-  local FILENAME="${BINARY}-${NREDF_UNAMEM}-${NREDF_OS}-${FILENAME_SUFFIX}.tbz"
+  local FILENAME="${BINARY}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tbz"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} -v | awk '{sub(\",\",\"\"); print \$3}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
