@@ -5,6 +5,9 @@
 function _nredf_macos_prerquisites() {
   _nredf_init_paths
 
+  # If VS Code Git signing works in terminal but fails in UI, set the GUI SSH socket:
+  # launchctl setenv SSH_AUTH_SOCK "$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+
   local BREW_PATH=""
   local BREW_UPGRADE_INTERVAL=86400
   local BREW_UPGRADE_KEY="_nredf_macos_prerquisites_brew_upgrade"
