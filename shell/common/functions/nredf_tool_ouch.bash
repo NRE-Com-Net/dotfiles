@@ -6,11 +6,6 @@
 function _nredf_tool_ouch() {
   _nredf_get_sys_info
 
-  if _nredf_is_macos_arm64; then
-    echo -e "\033[1;33m  ouch upstream does not provide a macOS arm64 binary\033[0m"
-    return 0
-  fi
-
   if [[ -n ${1} ]]; then
     FORCE_INSTALL=true
   fi
@@ -20,7 +15,7 @@ function _nredf_tool_ouch() {
   local BINARY="ouch"
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION}"
-  local FILENAME="${BINARY}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tar.gz"
+  local FILENAME="${BINARY}-$(_nredf_asset_arch rust)-${NREDF_PLATFORM}.tar.gz"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version 2>/dev/null | awk '{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
