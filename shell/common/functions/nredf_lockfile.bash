@@ -3,6 +3,8 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 function _nredf_create_lock() {
+  _nredf_init_paths
+
   if [[ "${1}" != "" ]]; then
     CURRENT_FUNCTION="${1}"
   elif [[ -n $BASH_VERSION ]]; then
@@ -30,6 +32,8 @@ function _nredf_create_lock() {
 }
 
 function _nredf_remove_lock() {
+  _nredf_init_paths
+
   if [[ "${1}" != "" ]]; then
     CURRENT_FUNCTION="${1}"
   elif [[ -n $BASH_VERSION ]]; then

@@ -4,6 +4,8 @@
 # shellcheck disable=SC2086
 
 function _nredf_create_tool_completion() {
+  _nredf_init_paths
+
   local BINARY="${1}"
   local COMPLETION_CMD="${2}"
   local COMPLETION_FILE

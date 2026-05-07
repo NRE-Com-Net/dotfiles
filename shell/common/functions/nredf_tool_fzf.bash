@@ -10,7 +10,7 @@ function _nredf_tool_fzf() {
     FORCE_INSTALL=true
   fi
 
-  if [[ ${NREDF_OS} =~ ^(macos|windows)$ ]]; then
+  if [[ ${NREDF_OS} == windows ]]; then
     local FILEEXT="zip"
   fi
 
@@ -19,7 +19,7 @@ function _nredf_tool_fzf() {
   local BINARY="fzf"
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
-  local FILENAME="${BINARY}-${VERSION}-${NREDF_UNAME_LOWER}_${NREDF_ARCH}.${FILEEXT:-tar.gz}"
+  local FILENAME="${BINARY}-${VERSION}-$(_nredf_asset_os uname-lower)_${NREDF_ARCH}.${FILEEXT:-tar.gz}"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$1}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='

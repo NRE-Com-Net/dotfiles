@@ -7,6 +7,9 @@ function _nredf_get_sys_info() {
   NREDF_UNAME_LOWER="$(uname -s | tr '[:upper:]' '[:lower:]')"
   NREDF_UNAMEM=$(uname -m)
   case ${NREDF_UNAMEM} in
+    arm64)
+      NREDF_ARCH="arm64"
+      ;;
     armv5*)
       NREDF_ARCH="armv5"
       NREDF_LIBC="musleabi"

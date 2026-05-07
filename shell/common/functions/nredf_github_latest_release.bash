@@ -4,6 +4,8 @@
 # shellcheck disable=SC2086
 
 function _nredf_github_latest_release() {
+  _nredf_init_paths
+
   local GHUSER=${1}
   local GHREPO=${2}
   local TAGREGEX=${3:-""}

@@ -3,6 +3,8 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 function _nredf_sync_dotfiles() {
+  _nredf_init_paths
+
   if [[ ! -d "${HOME}/.homesick" ]]; then
     _nredf_install_homeshick
   else
@@ -66,6 +68,8 @@ function _nredf_install_homeshick() {
 }
 
 function _nredf_add_castles() {
+  _nredf_init_paths
+
   if [[ ! -f "${XDG_CONFIG_HOME}/nredf/CASTLES" ]]; then
     if command -pv homeshick &>/dev/null; then
       homeshick ls | sed -r "s/\x1B\[([0-9]{1,3}(;[0-9]{1,2};?)?)?[mGK]//g" | awk '{$1=$1;print $2}' > "${XDG_CONFIG_HOME}/nredf/CASTLES"

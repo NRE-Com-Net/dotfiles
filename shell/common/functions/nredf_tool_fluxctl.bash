@@ -6,6 +6,11 @@
 function _nredf_tool_fluxctl() {
   _nredf_get_sys_info
 
+  if _nredf_is_macos_arm64; then
+    echo -e "\033[1;33m  fluxctl upstream does not provide a macOS arm64 binary\033[0m"
+    return 0
+  fi
+
   if [[ -n ${1} ]]; then
     FORCE_INSTALL=true
   fi

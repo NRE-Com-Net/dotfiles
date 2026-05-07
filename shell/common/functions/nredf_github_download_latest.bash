@@ -4,6 +4,8 @@
 # shellcheck disable=SC2086
 
 function _nredf_github_download_latest() {
+  _nredf_init_paths
+
   local GHUSER=${1}
   local GHREPO=${2}
   local GHFILE=${3}

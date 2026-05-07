@@ -4,6 +4,8 @@
 # shellcheck disable=SC2155
 
 function _nredf_last_run() {
+  _nredf_init_paths
+
   if [[ "${1}" != "" ]]; then
     CURRENT_FUNCTION="${1}"
   elif [[ -n $BASH_VERSION ]]; then

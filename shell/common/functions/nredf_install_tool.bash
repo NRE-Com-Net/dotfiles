@@ -4,6 +4,8 @@
 # shellcheck disable=SC2086
 
 function _nredf_install_tool() {
+  _nredf_init_paths
+
   local BINARY=${1}
   local TAGVERSION=${2}
   local VERSION=${3}

@@ -15,7 +15,7 @@ function _nredf_tool_atuin() {
   local BINARY="atuin"
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
-  local FILENAME="${BINARY}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.tar.gz"
+  local FILENAME="${BINARY}-$(_nredf_asset_arch rust)-${NREDF_PLATFORM}.tar.gz"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='

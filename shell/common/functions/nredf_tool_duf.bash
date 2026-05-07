@@ -10,16 +10,12 @@ function _nredf_tool_duf() {
     FORCE_INSTALL=true
   fi
 
-  if [[ "${NREDF_UNAMEM}" == "aarch64" ]]; then
-    NREDF_UNAMEM="arm64"
-  fi
-
   local GHUSER="muesli"
   local GHREPO="duf"
   local BINARY="duf"
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
-  local FILENAME="${GHREPO}_${VERSION}_${NREDF_OS}_${NREDF_UNAMEM}.tar.gz"
+  local FILENAME="${GHREPO}_${VERSION}_$(_nredf_asset_os darwin-lower)_$(_nredf_asset_arch machine).tar.gz"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} -version | awk '/duf/{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='

@@ -3,6 +3,8 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 _nredf_set_local () {
+  _nredf_init_paths
+
   local ALIAS=${1:-false}
   if ${ALIAS}; then
     echo -e '\033[1mSourcing local aliases\033[0m'

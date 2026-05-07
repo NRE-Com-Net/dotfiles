@@ -10,6 +10,9 @@ done
 
 _nredf_get_sys_info
 _nredf_set_defaults
+if [[ "${NREDF_OS}" == "macos" ]]; then
+  _nredf_macos_prerquisites
+fi
 _nredf_backup_rc
 [[ -z ${SUDO_COMMAND} ]] && _nredf_sync_dotfiles
 (bash "${NREDF_DOT_PATH}/shell/common/scripts/nredf_config.bash")
@@ -35,6 +38,8 @@ source "${NREDF_RC_PATH}/rc"
 
 _nredf_os_specific
 _nredf_set_local true
-eval "$(atuin init "${NREDF_SHELL_NAME}")"
+if command -v atuin &>/dev/null; then
+  eval "$(atuin init "${NREDF_SHELL_NAME}")"
+fi
 source "${NREDF_RC_PATH}/bindings"
 _nredf_remote_multiplexer

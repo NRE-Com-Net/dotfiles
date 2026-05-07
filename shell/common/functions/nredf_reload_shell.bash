@@ -3,6 +3,8 @@
 # vim: ts=2 sw=2 et ff=unix ft=bash syntax=sh
 
 _nredf_reload_shell () {
+  _nredf_init_paths
+
   local LRCACHE=false
   local GHCACHE=false
   local DOWNLOADS=false

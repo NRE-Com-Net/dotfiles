@@ -15,7 +15,7 @@ function _nredf_tool_yazi() {
   local BINARY="yazi"
   local TAGVERSION="${1:-$(_nredf_github_latest_release "${GHUSER}" "${GHREPO}")}"
   local VERSION="${TAGVERSION#v}"
-  local FILENAME="${BINARY}-${NREDF_UNAMEM}-${NREDF_PLATFORM}.zip"
+  local FILENAME="${BINARY}-$(_nredf_asset_arch rust)-${NREDF_PLATFORM}.zip"
   local VERSION_CMD="${XDG_BIN_HOME}/${BINARY} --version | awk '{print \$2}'"
   local DOWNLOAD_CMD="_nredf_github_download_latest \"${GHUSER}\" \"${GHREPO}\" \"${FILENAME}\" \"${TAGVERSION}\""
   local EXTRACT_CMD='
@@ -34,7 +34,7 @@ function _nredf_tool_yazi() {
     command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.zip}/completions/_yazi" "${XDG_CONFIG_HOME}/completion/zsh/"
     command cp -f "${NREDF_DOWNLOADS}/${FILENAME%.zip}/completions/_ya" "${XDG_CONFIG_HOME}/completion/zsh/"
 
-    ${XDG_BIN_HOME}/ya pgk install
+    ${XDG_BIN_HOME}/ya pkg install
   '
 
   _nredf_install_tool "${BINARY}" "${TAGVERSION}" "${VERSION}" "${VERSION_CMD}" "${DOWNLOAD_CMD}" "${EXTRACT_CMD}" "${FORCE_INSTALL}"
