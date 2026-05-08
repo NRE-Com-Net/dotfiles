@@ -41,5 +41,8 @@ _nredf_set_local true
 if command -v atuin &>/dev/null; then
   eval "$(atuin init "${NREDF_SHELL_NAME}")"
 fi
+if command -v fnm &>/dev/null; then
+  eval "$(fnm env --use-on-cd)"
+fi
 source "${NREDF_RC_PATH}/bindings"
 _nredf_remote_multiplexer

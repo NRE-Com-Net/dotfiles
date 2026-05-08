@@ -18,7 +18,7 @@ function _nredf_macos_prerquisites() {
   local BREW_UPGRADE_KEY="_nredf_macos_prerquisites_brew_upgrade"
   local BREW_CLEANUP_INTERVAL=86400
   local BREW_CLEANUP_KEY="_nredf_macos_prerquisites_brew_cleanup"
-  local FORMULAE=(bash git diffutils util-linux gh)
+  local FORMULAE=(bash git diffutils util-linux gh fnm)
   local FORMULA=""
   local MISSING_FORMULAE_INSTALLED=false
   local NEXT_BREW_UPGRADE="$(($(date +%s) + BREW_UPGRADE_INTERVAL))"
@@ -93,7 +93,6 @@ function _nredf_macos_prerquisites() {
       echo -e "\033[1m  Upgrading Homebrew formulas: ${OUTDATED_FORMULAE[*]}\033[0m"
       if HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1 "${BREW_PATH}" upgrade "${OUTDATED_FORMULAE[@]}" >/dev/null; then
         _nredf_last_run "${BREW_UPGRADE_KEY}" "true" "${NEXT_BREW_UPGRADE}"
-        UPGRADE_PERFORMED=true
       fi
     else
       _nredf_last_run "${BREW_UPGRADE_KEY}" "true" "${NEXT_BREW_UPGRADE}"
