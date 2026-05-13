@@ -4,25 +4,51 @@
 
 declare -a NREDF_DEFAULT_TOOLS
 
+NREDF_COMMON_RC_PROFILE="${NREDF_COMMON_RC_PROFILE:-full}"
+
 for NREDF_FUNCTIONS in "${NREDF_DOT_PATH}/shell/common/functions/"*; do
   source "${NREDF_FUNCTIONS}"
 done
 
 _nredf_get_sys_info
-_nredf_set_defaults
-if [[ "${NREDF_OS}" == "macos" ]]; then
-  _nredf_macos_prerquisites
+
+if [[ -z "${NREDF_COMMON_DEFAULTS_DONE}" ]]; then
+  _nredf_set_defaults
+  if [[ "${NREDF_OS}" == "macos" ]]; then
+    _nredf_macos_prerquisites
+  fi
+  _nredf_backup_rc
+  [[ -z ${SUDO_COMMAND} && "${NREDF_COMMON_RC_PROFILE}" == "full" ]] && _nredf_sync_dotfiles
+  (bash "${NREDF_DOT_PATH}/shell/common/scripts/nredf_config.bash")
+  if [[ -e "${NREDF_CONFIG}/config.bash" ]]; then
+    unset NREDF_CONFIGS
+    declare -A NREDF_CONFIGS
+    source "${NREDF_CONFIG}/config.bash"
+  fi
+  _nredf_set_ssh_agent
+  _nredf_set_local
+  export NREDF_COMMON_DEFAULTS_DONE="true"
 fi
-_nredf_backup_rc
-[[ -z ${SUDO_COMMAND} ]] && _nredf_sync_dotfiles
-(bash "${NREDF_DOT_PATH}/shell/common/scripts/nredf_config.bash")
-if [[ -e "${NREDF_CONFIG}/config.bash" ]]; then
-  unset NREDF_CONFIGS
-  declare -A NREDF_CONFIGS
-  source "${NREDF_CONFIG}/config.bash"
+
+if [[ "${NREDF_COMMON_RC_PROFILE}" == "login-minimal" ]]; then
+  if command -v fnm &>/dev/null; then
+    eval "$(fnm env --use-on-cd)"
+  fi
+  return
 fi
-_nredf_set_ssh_agent
-_nredf_set_local
+
+if [[ "${NREDF_COMMON_RC_PROFILE}" == "interactive-minimal" ]]; then
+  echo -e "\033[1mCustomizing Shell\033[0m"
+  source "${NREDF_RC_PATH}/rc"
+  _nredf_os_specific
+  _nredf_set_local true
+  if command -v atuin &>/dev/null; then
+    eval "$(atuin init "${NREDF_SHELL_NAME}")"
+  fi
+  source "${NREDF_RC_PATH}/bindings"
+  return
+fi
+
 if [[ -z ${SUDO_COMMAND} ]]; then
   _nredf_cleanup_dotfiles
   if command -v gh &>/dev/null && ! gh auth status &>/dev/null; then

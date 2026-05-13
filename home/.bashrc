@@ -13,6 +13,7 @@
 
 export NREDF_SHELL_NAME="bash"
 export NREDF_DOT_PATH="${HOME}/.homesick/repos/dotfiles"
+export NREDF_COMMON_RC_PROFILE="full"
 source "${NREDF_DOT_PATH}/shell/common/rc"
 #eval "$(starship init bash)"
 _nredf_tool_fzf_source

@@ -13,6 +13,7 @@
 
 export NREDF_SHELL_NAME="zsh"
 export NREDF_DOT_PATH="${HOME}/.homesick/repos/dotfiles"
+export NREDF_COMMON_RC_PROFILE="full"
 source "${NREDF_DOT_PATH}/shell/common/rc"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
