@@ -25,10 +25,12 @@ if [[ -z "${NREDF_COMMON_DEFAULTS_DONE}" ]]; then
     declare -A NREDF_CONFIGS
     source "${NREDF_CONFIG}/config.bash"
   fi
-  _nredf_set_ssh_agent
   _nredf_set_local
-  export NREDF_COMMON_DEFAULTS_DONE="true"
+  NREDF_COMMON_DEFAULTS_DONE="true"
 fi
+
+# Run on each shell init so child/login shells always inherit a valid SSH_AUTH_SOCK.
+_nredf_set_ssh_agent
 
 if [[ "${NREDF_COMMON_RC_PROFILE}" == "login-minimal" ]]; then
   if command -v fnm &>/dev/null; then
