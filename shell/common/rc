@@ -24,6 +24,9 @@ if [[ -z "${NREDF_COMMON_DEFAULTS_DONE}" ]]; then
     unset NREDF_CONFIGS
     declare -A NREDF_CONFIGS
     source "${NREDF_CONFIG}/config.bash"
+    if declare -F _nredf_normalize_configs &>/dev/null; then
+      _nredf_normalize_configs
+    fi
   fi
   _nredf_set_local
   NREDF_COMMON_DEFAULTS_DONE="true"

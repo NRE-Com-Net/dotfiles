@@ -54,11 +54,9 @@ function _nredf_set_ssh_agent_wsl() {
 }
 
 function _nredf_set_ssh_agent_bitwarden() {
-  local os
-  os="$(uname -s)"
   local candidates=()
 
-  if [[ "${os}" == "Darwin" ]]; then
+  if [[ "${NREDF_OS:-}" == "macos" ]]; then
     candidates+=(
       "${HOME}/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
       "${HOME}/.bitwarden-ssh-agent.sock"
@@ -100,17 +98,62 @@ function _nredf_set_ssh_agent_gpg() {
   fi
 }
 
+function _nredf_ssh_agent_socket_works() {
+  local sock="${1:-${SSH_AUTH_SOCK:-}}"
+
+  if [[ -z "${sock}" || ! -S "${sock}" ]]; then
+    return 1
+  fi
+
+  if command -v ssh-add &>/dev/null; then
+    SSH_AUTH_SOCK="${sock}" ssh-add -l &>/dev/null
+    local rc=$?
+    [[ ${rc} -eq 0 || ${rc} -eq 1 ]]
+    return $?
+  fi
+
+  return 0
+}
+
 function _nredf_set_ssh_agent() {
+  local prefer_external_provider
+
+  prefer_external_provider="false"
+
+  if [[ "${NREDF_CONFIGS[AGENT_PIPE]:-}" == "true" || "${NREDF_CONFIGS[AGENT_GPG]:-}" == "true" || "${NREDF_CONFIGS[AGENT_BITWARDEN]:-}" == "true" ]]; then
+    prefer_external_provider="true"
+  fi
+
   # Do not override a forwarded SSH agent
   if [[ -n "${SSH_CONNECTION:-}" ]]; then
     return 0
   fi
 
-  # Keep current agent if it is working
-  if [[ -n "${SSH_AUTH_SOCK:-}" ]] && [[ -S "${SSH_AUTH_SOCK}" ]] && command -v ssh-add &>/dev/null; then
-    ssh-add -l &>/dev/null
-    local exit_code=$?
-    if [[ ${exit_code} -eq 0 ]] || [[ ${exit_code} -eq 1 ]]; then
+  # With explicit external provider preference, try configured providers first
+  # and fallback to the current agent only if all preferred providers fail.
+  if [[ "${prefer_external_provider}" == "true" ]]; then
+    if [[ "${NREDF_CONFIGS[AGENT_PIPE]:-}" == "true" ]] && [[ -n "${WSL_DISTRO_NAME}" || -n "${WSL_INTEROP}" ]]; then
+      export SSH_AUTH_SOCK="${HOME}/.ssh/auth_sock"
+      _nredf_set_ssh_agent_wsl
+      _nredf_ssh_agent_socket_works "${SSH_AUTH_SOCK}" && return 0
+    fi
+
+    if [[ "${NREDF_CONFIGS[AGENT_GPG]:-}" == "true" ]]; then
+      _nredf_set_ssh_agent_gpg
+      _nredf_ssh_agent_socket_works "${SSH_AUTH_SOCK}" && return 0
+    fi
+
+    if [[ "${NREDF_CONFIGS[AGENT_BITWARDEN]:-}" == "true" ]]; then
+      _nredf_set_ssh_agent_bitwarden
+      _nredf_ssh_agent_socket_works "${SSH_AUTH_SOCK}" && return 0
+    fi
+
+    if _nredf_ssh_agent_socket_works "${SSH_AUTH_SOCK:-}"; then
+      return 0
+    fi
+  else
+    # Keep current agent if it is working
+    if _nredf_ssh_agent_socket_works "${SSH_AUTH_SOCK:-}"; then
       return 0
     fi
   fi
@@ -123,28 +166,23 @@ function _nredf_set_ssh_agent() {
 
   # Check if socket exists and is working
   local auth_sock="${HOME}/.ssh/auth_sock"
-  if [[ -S "${auth_sock}" ]]; then
-    SSH_AUTH_SOCK="${auth_sock}" ssh-add -l &>/dev/null
-    local exit_code=$?
-    if [[ $exit_code -eq 0 || $exit_code -eq 1 ]]; then
-      # Socket exists and agent is responding, use it
-      export SSH_AUTH_SOCK="${auth_sock}"
-      return 0
-    fi
+  if _nredf_ssh_agent_socket_works "${auth_sock}"; then
+    export SSH_AUTH_SOCK="${auth_sock}"
+    return 0
   fi
 
   # Remove stale socket before starting new agent
   rm -f "${auth_sock}"
 
-  if [[ "${NREDF_CONFIGS["AGENT_PIPE"]}" == "true" ]] && [[ -n "${WSL_DISTRO_NAME}" || -n "${WSL_INTEROP}" ]]; then
+  if [[ "${NREDF_CONFIGS[AGENT_PIPE]:-}" == "true" ]] && [[ -n "${WSL_DISTRO_NAME}" || -n "${WSL_INTEROP}" ]]; then
     export SSH_AUTH_SOCK="${auth_sock}"
     if ! _nredf_set_ssh_agent_wsl; then
       printf "Error: Failed to set up WSL SSH agent bridge\n" >&2
       return 1
     fi
-  elif [[ "${NREDF_CONFIGS["AGENT_GPG"]}" == "true" ]]; then
+  elif [[ "${NREDF_CONFIGS[AGENT_GPG]:-}" == "true" ]]; then
     _nredf_set_ssh_agent_gpg
-  elif [[ "${NREDF_CONFIGS["AGENT_BITWARDEN"]}" == "true" ]]; then
+  elif [[ "${NREDF_CONFIGS[AGENT_BITWARDEN]:-}" == "true" ]]; then
     _nredf_set_ssh_agent_bitwarden
   else
     export SSH_AUTH_SOCK="${auth_sock}"

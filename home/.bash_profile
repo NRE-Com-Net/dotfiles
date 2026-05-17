@@ -1,11 +1,27 @@
 ################################################
 #
-#  Login shell setup (minimal):
-#  - initializes paths and environment defaults
-#  - includes PATH tools like fnm
-#  - skips tool installation and multiplexer startup
+#  Login shell setup:
+#  - interactive: defer to bashrc
+#  - non-interactive: use minimal profile
 #
 ################################################
+
+if [[ $- == *i* ]]; then
+	if [[ -z "${NREDF_BREW_BASH_EXECUTED:-}" ]]; then
+		for NREDF_BREW_BASH in /opt/homebrew/bin/bash /usr/local/bin/bash; do
+			if [[ -x "${NREDF_BREW_BASH}" && "${BASH:-}" != "${NREDF_BREW_BASH}" ]]; then
+				NREDF_BREW_BASH_DIR="${NREDF_BREW_BASH%/bash}"
+				if [[ ":${PATH}:" != *":${NREDF_BREW_BASH_DIR}:"* ]]; then
+					export PATH="${NREDF_BREW_BASH_DIR}:${PATH}"
+				fi
+				export NREDF_BREW_BASH_EXECUTED=1
+				exec "${NREDF_BREW_BASH}" -l
+			fi
+		done
+	fi
+	source "${HOME}/.bashrc"
+	return
+fi
 
 export NREDF_SHELL_NAME="bash"
 export NREDF_DOT_PATH="${HOME}/.homesick/repos/dotfiles"
